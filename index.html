@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+  <title>d3 test</title>
+
+  <style type="text/css">
+/*    body {
+      background: #fff;
+      color: #000;
+      width: 384px;
+      padding: 0;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+    }
+*/
+    .line {
+      fill: none;
+      stroke: #000;
+      stroke-width: 1.5px;
+    }
+
+    .area {
+      fill: #969696;
+    }
+  </style>
+
+  <script src="js/d3.v3.min.js"></script>
+  <script src="js/chart.js"></script>
+
+  <script>
+    window.onload = function() {
+      var data = [
+        {'date': 'Jan 2000', 'price': '1294.46' },
+        {'date': 'Feb 2000', 'price': '1366.42' },
+        {'date': 'Mar 2000', 'price': '1598.58' },
+        {'date': 'Apr 2000', 'price': '1952.43' },
+        {'date': 'May 2000', 'price': '1420.6' },
+        {'date': 'Jun 2000', 'price': '1454.6' },
+        {'date': 'Jul 2000', 'price': '1430.83' },
+        {'date': 'Aug 2000', 'price': '2017.68' }
+      ];
+      var chart = timeSeriesChart()
+          .x(function(d) { return formatDate.parse(d.date); })
+          .y(function(d) { return +d.price; });
+
+      var formatDate = d3.time.format("%b %Y");
+
+      d3.select("#chart")
+          .datum(data)
+          .call(chart);
+    };
+  </script>
+</head>
+<body>
+
+  <div id="chart"></div>
+
+</body>
+</html>
