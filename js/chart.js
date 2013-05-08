@@ -7,7 +7,6 @@ function timeSeriesChart() {
       xScale = d3.time.scale(),
       yScale = d3.scale.linear(),
       xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickSize(6, 0),
-      area = d3.svg.area().x(X).y1(Y),
       line = d3.svg.line().x(X).y(Y);
 
   function chart(selection) {
@@ -34,7 +33,6 @@ function timeSeriesChart() {
 
       // Otherwise, create the skeletal chart.
       var gEnter = svg.enter().append("svg").append("g");
-      gEnter.append("path").attr("class", "area");
       gEnter.append("path").attr("class", "line");
       gEnter.append("g").attr("class", "x axis");
 
@@ -45,10 +43,6 @@ function timeSeriesChart() {
       // Update the inner dimensions.
       var g = svg.select("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-      // Update the area path.
-      g.select(".area")
-          .attr("d", area.y0(yScale.range()[0]));
 
       // Update the line path.
       g.select(".line")
