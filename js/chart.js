@@ -1,13 +1,41 @@
-function timeSeriesChart() {
+function LPChart() {
   var margin = {top: 20, right: 20, bottom: 20, left: 20},
       width = 760,
       height = 120,
-      xValue = function(d) { return d[0]; },
-      yValue = function(d) { return d[1]; },
-      xScale = d3.time.scale(),
+      // Both axes default to numeric scales:
+      xValue = function(d) { return +d[0]; },
+      yValue = function(d) { return +d[1]; },
+      xScale = d3.scale.linear(),
       yScale = d3.scale.linear(),
       xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickSize(6, 0),
-      line = d3.svg.line().x(X).y(Y);
+      line = d3.svg.line().x(X).y(Y),
+      xAxisType = 'numeric',
+      yAxisType = 'numeric';
+
+  var x_axis_types = {
+    date:       {
+      value: function(d) { return d3.time.format("%Y-%m-%d").parse(d[0]); },
+      scale: d3.time.scale()
+    },
+    numeric:    {
+      value: function(d) { return +d[0]; },
+      scale: d3.scale.linear()
+    },
+    year:       {
+      value: function(d) { return d3.time.format("%Y").parse(d[0]); },
+      scale: d3.time.scale()
+    },
+    yearmonth:  {
+      value: function(d) { return d3.time.format("%Y-%m").parse(d[0]); },
+      scale: d3.time.scale()
+    }
+  };
+  var y_axis_types = {
+    numeric:    {
+      value: function(d) { return +d[1]; },
+      scale: d3.scale.linear()
+    }
+  };
 
   function chart(selection) {
     selection.each(function(orig_datasets) {
@@ -86,6 +114,28 @@ function timeSeriesChart() {
   function Y(d) {
     return yScale(d[1]);
   }
+
+  chart.xAxisType = function(_) {
+    if (!arguments.length) return xAxisType;
+    if (_ in x_axis_types) {
+      xAxisType = _;
+      xValue = x_axis_types[_].value;
+      xScale = x_axis_types[_].scale;
+      xAxis.scale(xScale);
+    };
+    return chart;
+  };
+
+  chart.yAxisType = function(_) {
+    if (!arguments.length) return yAxisType;
+    if (_ in y_axis_types) {
+      yAxisType = _;
+      yValue = y_axis_types[_].value;
+      yScale = y_axis_types[_].scale;
+      yAxis.scale(yScale);
+    };
+    return chart;
+  };
 
   chart.margin = function(_) {
     if (!arguments.length) return margin;

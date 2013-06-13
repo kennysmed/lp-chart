@@ -25,44 +25,41 @@
     window.onload = function() {
     	// Two sets of data for the first chart:
       var data_1a = [
-        {'date': 'Jan 2000', 'price': '1394.46' },
-        {'date': 'Feb 2000', 'price': '1366.42' },
-        {'date': 'Mar 2000', 'price': '1498.58' },
-        {'date': 'Apr 2000', 'price': '1452.43' },
-        {'date': 'May 2000', 'price': '1420.6' },
-        {'date': 'Jun 2000', 'price': '1454.6' },
-        {'date': 'Jul 2000', 'price': '1430.83' },
-        {'date': 'Aug 2000', 'price': '1517.68' }
+        ['2000-01', '1394.46'],
+        ['2000-02', '1366.42'],
+        ['2000-03', '1498.58'],
+        ['2000-04', '1452.43'],
+        ['2000-05', '1420.6'],
+        ['2000-06', '1454.6'],
+        ['2000-07', '1430.83'],
+        ['2000-08', '1517.68']
       ];
       var data_1b = [
-        {'date': 'May 2000', 'price': '1094.46' },
-        {'date': 'Jun 2000', 'price': '1366.42' },
-        {'date': 'Jul 2000', 'price': '1598.58' },
-        {'date': 'Aug 2000', 'price': '1752.43' },
-        {'date': 'Sep 2000', 'price': '1420.6' },
-        {'date': 'Oct 2000', 'price': '1454.6' },
-        {'date': 'Nov 2000', 'price': '1430.83' },
-        {'date': 'Dec 2000', 'price': '1817.68' }
+        ['2000-05', '1094.46'],
+        ['2000-06', '1366.42'],
+        ['2000-07', '1598.58'],
+        ['2000-08', '1752.43'],
+        ['2000-09', '1420.6'],
+        ['2000-10', '1454.6'],
+        ['2000-11', '1430.83'],
+        ['2000-12', '1817.68']
       ];
 
       // One set of data for the second chart:
       var data2 = [
-        {'date': 'Jan 2012', 'price': '1394.46' },
-        {'date': 'Feb 2012', 'price': '366.42' },
-        {'date': 'Mar 2012', 'price': '1598.58' },
-        {'date': 'Apr 2012', 'price': '952.43' },
-        {'date': 'May 2012', 'price': '1420.6' },
-        {'date': 'Jun 2012', 'price': '454.6' },
-        {'date': 'Jul 2012', 'price': '1430.83' },
-        {'date': 'Aug 2012', 'price': '817.68' }
+        ['2012-01-01', '1394.46'],
+        ['2012-01-02', '366.42'],
+        ['2012-01-03', '1598.58'],
+        ['2012-01-04', '952.43'],
+        ['2012-01-05', '1420.6'],
+        ['2012-01-06', '454.6'],
+        ['2012-01-07', '1430.83'],
+        ['2012-01-08', '817.68']
       ];
 
       // Set up the chart instance:
-      var chart = timeSeriesChart()
-          .x(function(d) { return formatDate.parse(d.date); })
-          .y(function(d) { return +d.price; });
-
-      var formatDate = d3.time.format("%b %Y");
+      var chart = LPChart()
+	      .xAxisType('yearmonth');
 
       // Draw each chart in turn.
       // The datasets are passed in in an array.
@@ -70,6 +67,8 @@
       d3.select("#chart1")
         .datum([data_1a, data_1b])
         .call(chart);
+
+      chart.xAxisType('date');
 
       d3.select("#chart2")
       	.datum([data2])
