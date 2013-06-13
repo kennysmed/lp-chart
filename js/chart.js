@@ -55,12 +55,12 @@ function timeSeriesChart() {
     });
   }
 
-  // The x-accessor for the path generator; xScale âˆ˜ xValue.
+  // The x-accessor for the path generator; xScale - xValue.
   function X(d) {
     return xScale(d[0]);
   }
 
-  // The x-accessor for the path generator; yScale âˆ˜ yValue.
+  // The y-accessor for the path generator; yScale - yValue.
   function Y(d) {
     return yScale(d[1]);
   }

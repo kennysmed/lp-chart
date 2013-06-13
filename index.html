@@ -32,24 +32,26 @@
   <script>
     window.onload = function() {
       var data = [
-        {'date': 'Jan 2000', 'price': '1294.46' },
-        {'date': 'Feb 2000', 'price': '1366.42' },
-        {'date': 'Mar 2000', 'price': '1598.58' },
-        {'date': 'Apr 2000', 'price': '1952.43' },
-        {'date': 'May 2000', 'price': '1420.6' },
-        {'date': 'Jun 2000', 'price': '1454.6' },
-        {'date': 'Jul 2000', 'price': '1430.83' },
-        {'date': 'Aug 2000', 'price': '2017.68' }
+        ['Jan 2000', '1294.46'],
+        ['Feb 2000', '1366.42'],
+        ['Mar 2000', '1598.58'],
+        ['Apr 2000', '1952.43'],
+        ['May 2000', '1420.6'],
+        ['Jun 2000', '1454.6'],
+        ['Jul 2000', '1430.83'],
+        ['Aug 2000', '2017.68']
       ];
+
       var chart = timeSeriesChart()
-          .x(function(d) { return formatDate.parse(d.date); })
-          .y(function(d) { return +d.price; });
+          .x(function(d) { return formatDate.parse(d[0]); })
+          .y(function(d) { return +d[1] });
 
       var formatDate = d3.time.format("%b %Y");
 
       d3.select("#chart")
           .datum(data)
           .call(chart);
+
     };
   </script>
 </head>
