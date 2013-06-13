@@ -10,30 +10,49 @@ function timeSeriesChart() {
       line = d3.svg.line().x(X).y(Y);
 
   function chart(selection) {
-    selection.each(function(data) {
+    selection.each(function(orig_datasets) {
 
-      // Convert data to standard representation greedily;
-      // this is needed for nondeterministic accessors.
-      data = data.map(function(d, i) {
-        return [xValue.call(data, d, i), yValue.call(data, d, i)];
+      var datasets = [];
+
+      orig_datasets.forEach(function(data) {
+        // Convert data to standard representation greedily;
+        // this is needed for nondeterministic accessors.
+        data = data.map(function(d, i) {
+          return [xValue.call(data, d, i), yValue.call(data, d, i)];
+        });
+
+        datasets.push(data);
       });
 
       // Update the x-scale.
+      // Set the domains to go from min to max of all the datasets' x values.
       xScale
-          .domain(d3.extent(data, function(d) { return d[0]; }))
+          .domain([
+            d3.min(datasets, function(ds) { 
+              return d3.min(ds, function(d) { return d[0]; })
+            }),
+            d3.max(datasets, function(ds) { 
+              return d3.max(ds, function(d) { return d[0]; })
+            })
+          ])
           .range([0, width - margin.left - margin.right]);
 
       // Update the y-scale.
+      // Set the domains to go from min to max of all the datasets' y values.
       yScale
-          .domain([0, d3.max(data, function(d) { return d[1]; })])
+          .domain([
+            0,
+            d3.max(datasets, function(ds) { 
+              return d3.max(ds, function(d) { return d[1]; })
+            })
+          ])
           .range([height - margin.top - margin.bottom, 0]);
 
       // Select the svg element, if it exists.
-      var svg = d3.select(this).selectAll("svg").data([data]);
+      var svg = d3.select(this).selectAll("svg").data([datasets]);
 
       // Otherwise, create the skeletal chart.
       var gEnter = svg.enter().append("svg").append("g");
-      gEnter.append("path").attr("class", "line");
       gEnter.append("g").attr("class", "x axis");
 
       // Update the outer dimensions.
@@ -44,9 +63,12 @@ function timeSeriesChart() {
       var g = svg.select("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-      // Update the line path.
-      g.select(".line")
-          .attr("d", line);
+      // Update the line paths.
+      g.selectAll(".line").data(datasets)
+       .enter()
+       .append("path")
+       .attr("class", function(d,i) { return "line line-"+(i+1); })
+       .attr("d", line);
 
       // Update the x-axis.
       g.select(".x.axis")
@@ -55,12 +77,12 @@ function timeSeriesChart() {
     });
   }
 
-  // The x-accessor for the path generator; xScale - xValue.
+  // The x-accessor for the path generator; xScale âˆ˜ xValue.
   function X(d) {
     return xScale(d[0]);
   }
 
-  // The y-accessor for the path generator; yScale - yValue.
+  // The x-accessor for the path generator; yScale âˆ˜ yValue.
   function Y(d) {
     return yScale(d[1]);
   }

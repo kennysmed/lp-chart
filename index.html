@@ -5,24 +5,16 @@
   <title>d3 test</title>
 
   <style type="text/css">
-/*    body {
-      background: #fff;
-      color: #000;
-      width: 384px;
-      padding: 0;
-      margin: 0;
-      font-family: Arial, sans-serif;
-      font-size: 16px;
-    }
-*/
     .line {
       fill: none;
-      stroke: #000;
       stroke-width: 1.5px;
     }
-
-    .area {
-      fill: #969696;
+    /* Each line on a chart will have a number from 1 upwards. */
+    .line-1 {
+      stroke: #000;
+    }
+    .line-2 {
+    	stroke: #0c0;
     }
   </style>
 
@@ -31,33 +23,65 @@
 
   <script>
     window.onload = function() {
-      var data = [
-        ['Jan 2000', '1294.46'],
-        ['Feb 2000', '1366.42'],
-        ['Mar 2000', '1598.58'],
-        ['Apr 2000', '1952.43'],
-        ['May 2000', '1420.6'],
-        ['Jun 2000', '1454.6'],
-        ['Jul 2000', '1430.83'],
-        ['Aug 2000', '2017.68']
+    	// Two sets of data for the first chart:
+      var data_1a = [
+        {'date': 'Jan 2000', 'price': '1394.46' },
+        {'date': 'Feb 2000', 'price': '1366.42' },
+        {'date': 'Mar 2000', 'price': '1498.58' },
+        {'date': 'Apr 2000', 'price': '1452.43' },
+        {'date': 'May 2000', 'price': '1420.6' },
+        {'date': 'Jun 2000', 'price': '1454.6' },
+        {'date': 'Jul 2000', 'price': '1430.83' },
+        {'date': 'Aug 2000', 'price': '1517.68' }
+      ];
+      var data_1b = [
+        {'date': 'May 2000', 'price': '1094.46' },
+        {'date': 'Jun 2000', 'price': '1366.42' },
+        {'date': 'Jul 2000', 'price': '1598.58' },
+        {'date': 'Aug 2000', 'price': '1752.43' },
+        {'date': 'Sep 2000', 'price': '1420.6' },
+        {'date': 'Oct 2000', 'price': '1454.6' },
+        {'date': 'Nov 2000', 'price': '1430.83' },
+        {'date': 'Dec 2000', 'price': '1817.68' }
       ];
 
+      // One set of data for the second chart:
+      var data2 = [
+        {'date': 'Jan 2012', 'price': '1394.46' },
+        {'date': 'Feb 2012', 'price': '366.42' },
+        {'date': 'Mar 2012', 'price': '1598.58' },
+        {'date': 'Apr 2012', 'price': '952.43' },
+        {'date': 'May 2012', 'price': '1420.6' },
+        {'date': 'Jun 2012', 'price': '454.6' },
+        {'date': 'Jul 2012', 'price': '1430.83' },
+        {'date': 'Aug 2012', 'price': '817.68' }
+      ];
+
+      // Set up the chart instance:
       var chart = timeSeriesChart()
-          .x(function(d) { return formatDate.parse(d[0]); })
-          .y(function(d) { return +d[1] });
+          .x(function(d) { return formatDate.parse(d.date); })
+          .y(function(d) { return +d.price; });
 
       var formatDate = d3.time.format("%b %Y");
 
-      d3.select("#chart")
-          .datum(data)
-          .call(chart);
+      // Draw each chart in turn.
+      // The datasets are passed in in an array.
+      // Both use the same chart instance.
+      d3.select("#chart1")
+        .datum([data_1a, data_1b])
+        .call(chart);
 
+      d3.select("#chart2")
+      	.datum([data2])
+      	.call(chart);
     };
   </script>
 </head>
 <body>
 
-  <div id="chart"></div>
+  <div id="chart1"></div>
+
+  <div id="chart2"></div>
 
 </body>
 </html>
