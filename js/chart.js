@@ -3,6 +3,7 @@ function LPChart() {
   var tickFormats = {
     date: function(d) { return d3.time.format('%e %b')(d); },
     numeric: function(d) { return d3.format(',')(d); },
+    weekday: function(d) { return d3.time.format('%a')(d); },
     year: function(d) { return d3.time.format('%Y')(d); },
     yearmonth: function(d) { return d3.time.format('%b %Y')(d); }
   };
@@ -45,6 +46,11 @@ function LPChart() {
       value: function(d) { return +d[0]; },
       scale: d3.scale.linear(),
       tickFormat: tickFormats.numeric
+    },
+    weekday: {
+      value: function(d) { return d3.time.format("%Y-%m-%d").parse(d[0]); },
+      scale: d3.time.scale(),
+      tickFormat: tickFormats.weekday
     },
     year: {
       value: function(d) { return d3.time.format("%Y").parse(d[0]); },
