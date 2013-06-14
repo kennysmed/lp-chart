@@ -11,7 +11,7 @@
     }
     /* Each line on a chart will have a number from 1 upwards. */
     .line-1 {
-      stroke: #000;
+      stroke: #c00;
     }
     .line-2 {
     	stroke: #0c0;
@@ -57,6 +57,9 @@
         ['2012-01-08', '817.68']
       ];
 
+      var data3a = [[1, 10], [2, 12], [3, 15], [5, 14], [6, 20], [7, 8]];
+      var data3b = [[1, 5], [2, 3], [3, 0], [5, 2], [6, 1], [7, 7]];
+
       // Set up the chart instance:
       var chart = LPChart()
 	      .xAxisType('yearmonth');
@@ -73,14 +76,25 @@
       d3.select("#chart2")
       	.datum([data2])
       	.call(chart);
+
+      chart.xAxisType('numeric');
+
+      d3.select('#chart3')
+      	.datum([data3a, data3b])
+      	.call(chart);
     };
   </script>
 </head>
 <body>
 
+	<p>Year months</p>
   <div id="chart1"></div>
 
+  <p>Dates</p>
   <div id="chart2"></div>
+
+  <p>Numeric</p>
+  <div id="chart3"></div>
 
 </body>
 </html>

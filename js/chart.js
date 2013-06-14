@@ -10,15 +10,8 @@ function LPChart() {
   var margin = {top: 20, right: 20, bottom: 20, left: 20},
       width = 760,
       height = 120,
-      // Both axes default to numeric scales:
-      xValue = function(d) { return +d[0]; },
-      yValue = function(d) { return +d[1]; },
-      xScale = d3.scale.linear(),
-      yScale = d3.scale.linear(),
-      xTickFormat = tickFormats.numeric,
-      yTickFormat = tickFormats.numeric,
-      xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickSize(6, 0),
       line = d3.svg.line().x(X).y(Y),
+      // The default axis types:
       xAxisType = 'numeric',
       yAxisType = 'numeric';
 
@@ -28,7 +21,7 @@ function LPChart() {
     date: {
       value: function(d) { return d3.time.format("%Y-%m-%d").parse(d[0]); },
       scale: d3.time.scale(),
-      tickFormat: tickFormats.date 
+      tickFormat: tickFormats.date
     },
     numeric: {
       value: function(d) { return +d[0]; },
@@ -54,7 +47,28 @@ function LPChart() {
     }
   };
 
+  // Set the default values based on the default axis types:
+  var xValue = xAxisTypes[xAxisType].value,
+      yValue = yAxisTypes[yAxisType].value,
+      xScale = xAxisTypes[xAxisType].scale,
+      yScale = yAxisTypes[yAxisType].scale,
+      xTickFormat = xAxisTypes[xAxisType].tickFormat,
+      yTickFormat = yAxisTypes[yAxisType].tickFormat,
+      xAxis = d3.svg.axis().orient('bottom').tickSize(6, 0).scale(xScale).tickFormat(xTickFormat),
+      yAxis = d3.svg.axis().orient('left').tickSize(6, 0).scale(yScale).tickFormat(yTickFormat);
+
   function chart(selection) {
+    // Reset the default values for this particular chart:
+    xValue = xAxisTypes[xAxisType].value;
+    yValue = yAxisTypes[yAxisType].value;
+    xScale = xAxisTypes[xAxisType].scale;
+    yScale = yAxisTypes[yAxisType].scale;
+    xTickFormat = xAxisTypes[xAxisType].tickFormat;
+    yTickFormat = yAxisTypes[yAxisType].tickFormat;
+    xAxis.scale(xScale).tickFormat(xTickFormat);
+    yAxis.scale(yScale).tickFormat(yTickFormat);
+
+    // For each of the lines...
     selection.each(function(orig_datasets) {
 
       var datasets = [];
@@ -68,6 +82,7 @@ function LPChart() {
 
         datasets.push(data);
       });
+
 
       // Update the x-scale.
       // Set the domains to go from min to max of all the datasets' x values.
@@ -136,10 +151,6 @@ function LPChart() {
     if (!arguments.length) return xAxisType;
     if (_ in xAxisTypes) {
       xAxisType = _;
-      xValue = xAxisTypes[_].value;
-      xScale = xAxisTypes[_].scale;
-      xTickFormat = xAxisTypes[_].tickFormat;
-      xAxis.scale(xScale).tickFormat(xTickFormat);
     };
     return chart;
   };
@@ -148,10 +159,6 @@ function LPChart() {
     if (!arguments.length) return yAxisType;
     if (_ in yAxisTypes) {
       yAxisType = _;
-      yValue = yAxisTypes[_].value;
-      yScale = yAxisTypes[_].scale;
-      yTickFormat = yAxisTypes[_].tickFormat;
-      yAxis.scale(yScale).tickFormat(yTickFormat);
     };
     return chart;
   };
@@ -171,6 +178,12 @@ function LPChart() {
   chart.height = function(_) {
     if (!arguments.length) return height;
     height = _;
+    return chart;
+  };
+
+  chart.xAxisTicks = function(_) {
+    if (!arguments.length) return xAxisTicks;
+    xAxisTicks = _;
     return chart;
   };
 
