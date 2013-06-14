@@ -9,11 +9,11 @@ function LPChart() {
   };
 
   var line = d3.svg.line().x(X).y(Y),
-      // Default margins so we can change the margins back to them:
-      marginDefaults = {top: 10, right: 20, bottom: 20, left: 50},
-      // These might change for each chart:
-      margin = {top: marginDefaults.top, right: marginDefaults.right,
-                bottom: marginDefaults.bottom, left: marginDefaults.left},
+      // Not user-editable - depend on presence of axes etc:
+      marginLeft = 0,
+      marginRight = 0,
+      marginTop = 0,
+      marginBottom = 0,
       // Default width and height, which can be overridden with
       // chart.width() and chart.height():
       // These are the width and height allocated to the entire chart,
@@ -92,15 +92,25 @@ function LPChart() {
     yAxis.scale(yScale).tickFormat(yTickFormat).ticks(yAxisTicks);
 
     if (showXAxis) {
-      margin.bottom = marginDefaults.bottom;
+      // Enough space for ticks and text:
+      marginBottom = 20;
     } else {
-      // Enough for bottom label on y-axis to not be clipped:
-      margin.bottom = 5;
+      if (showYAxis) {
+        // Enough space for bottom label on y-axis to not be clipped:
+        marginBottom = 5;
+      } else {
+        marginBottom = 0;
+      }
     }
-    
+    if (showYAxis) {
+      // Enough to allow for top of a y-axis label at top of its axis:
+      marginTop = 7;
+    } else {
+      // Should stop peaks of lines being clipped:
+      marginTop = 1;
+    }
+
     // The dimensions of the chart area itself.
-    var innerWidth = width - margin.left - margin.right;
-    var innerHeight = height - margin.top - margin.bottom;
 
     // For each of the lines...
     selection.each(function(orig_datasets) {
@@ -129,51 +139,118 @@ function LPChart() {
                     return d3.max(ds, function(d) { return d[1]; });
                   });
 
-      // Update the x and y scales.
-      xScale
-          .domain([minX, maxX])
-          .range([0, innerWidth]);
-      yScale
-          .domain([0, maxY])
-          .range([innerHeight, 0]);
-
       // Select the svg element, if it exists.
       var svg = d3.select(this).selectAll("svg").data([datasets]);
 
       // Otherwise, create the skeletal chart.
       var gEnter = svg.enter().append("svg").append("g");
+
+      // The graph area(?):
+      var g = svg.select("g");
+
+
+      // Will be the space we need on the left for the y-axis' widest label:
+      var yAxisMarginLeft = 0;
+      // Will be the space we need on the left for x-axis' first label:
+      var xAxisMarginLeft = 0;
+      // Will be the space we need on the right for x-axis' last label:
+      var xAxisMarginRight = 0;
+
+
+      // DRAW Y-AXIS ////////////////////////////////////////////////////
+
+      // Height of the chart-area itself.
+      var innerHeight = height - marginTop - marginBottom;
+
+      yScale
+          .domain([0, maxY])
+          .range([innerHeight, 0]);
+
+      if (showYAxis) {
+        // Add it.
+        gEnter.append("g").attr("class", "axis axis-y");
+        g.select(".axis-y")
+          .call(yAxis);
+
+        // Get the width of the widest y-axis label.
+        var maxYTickW = 0;
+        d3.select(this).select('.axis-y').selectAll('text').each(function(){
+          if (this.getBBox().width > maxYTickW) maxYTickW = this.getBBox().width;
+        });
+
+        // We add 8px to allow for the ticks and space:
+        yAxisMarginLeft = maxYTickW + 8;
+      }
+
+
+      if (showXAxis) {
+        // DRAW DUMMY X-AXIS ///////////////////////////////////////////
+        // Just so we can measure its first and last labels' widths.
+
+        // Width of chart area itself, based on what we have so far:
+        var dummyInnerWidth = width - d3.max([marginLeft, yAxisMarginLeft]) - marginRight;
+
+        xScale
+            .domain([minX, maxX])
+            .range([0, dummyInnerWidth]);
+
+        gEnter.append("g").attr("class", "axis axis-x");
+        g.select(".axis-x")
+          .attr("transform", "translate(0," + yScale.range()[0] + ")")
+          .call(xAxis);
+
+        var firstTick = d3.select(this).select('.axis-x').select('.tick');
+        var firstTickWidth = firstTick.node().getBBox().width;
+        xAxisMarginLeft = firstTickWidth / 2;
+
+        var lastTick = d3.select(
+                d3.select(this).select('.axis-x').selectAll('.tick')[0].pop()
+              );
+        var lastTickWidth = lastTick.node().getBBox().width; 
+        xAxisMarginRight = lastTickWidth / 2;
+
+        // Now remove the dummy x-axis.
+        g.select(".axis-x").remove();
+      }
+      
+
+      // Having drawn the y-axis and the dummy x-axis, we now know the most
+      // space we need to leave on the left and right of the chart area:
+      marginLeft = d3.max([yAxisMarginLeft, xAxisMarginLeft]);
+      marginRight = xAxisMarginRight;
+
+
+      // DRAW REAL X-AXIS ////////////////////////////////////////////////
+
+      // Width of the chart-area itself.
+      var innerWidth = width - marginLeft - marginRight;
+
+      xScale
+          .domain([minX, maxX])
+          .range([0, innerWidth]);
+
       if (showXAxis) {
         gEnter.append("g").attr("class", "axis axis-x");
-      };
-      if (showYAxis) {
-        gEnter.append("g").attr("class", "axis axis-y");
-      };
+        g.select(".axis-x")
+          .attr("transform", "translate(0," + yScale.range()[0] + ")")
+          .call(xAxis);
+      }
+
+
+      // ON WITH THE MAIN PART OF THE CHART ///////////////////////////////   
 
       // Update the outer dimensions.
-      svg .attr("width", width)
+      svg.attr("width", width)
           .attr("height", height);
 
-      // Update the inner dimensions.
-      var g = svg.select("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-      // Update the line paths.
+      // Add the line paths.
       g.selectAll(".line").data(datasets)
        .enter()
        .append("path")
        .attr("class", function(d,i) { return "line line-"+(i+1); })
-       .attr("d", line);
+       .attr("d", line)
 
-      // Update the axes.
-      if (showXAxis) {
-        g.select(".axis-x")
-          .attr("transform", "translate(0," + yScale.range()[0] + ")")
-          .call(xAxis);
-      };
-      if (showYAxis) {
-        g.select(".axis-y")
-            .call(yAxis);
-      };
+      g.attr("transform", "translate(" + marginLeft + "," + marginTop + ")");
     });
   }
 
@@ -202,12 +279,6 @@ function LPChart() {
     }
     return chart;
   };
-
-  // chart.margin = function(_) {
-  //   if (!arguments.length) return margin;
-  //   margin = _;
-  //   return chart;
-  // };
 
   chart.width = function(_) {
     if (!arguments.length) return width;

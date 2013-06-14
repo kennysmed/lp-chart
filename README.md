@@ -9,5 +9,7 @@ To do:
 * Add filled-in style.
 * Allow for negative values.
 * Allow for setting custom tickFormats.
+* Add hour xAxis type.
+* Add month xAxis type.
 
 * Add bar chart?

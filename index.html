@@ -100,7 +100,9 @@
       	.datum([data2])
       	.call(chart);
 
-      chart.xAxisType('weekday').height(160).showYAxis(false);
+      chart.xAxisType('weekday')
+      	.height(160)
+      	.showYAxis(false);
 
       d3.select("#chart3")
       	.datum([data2])
