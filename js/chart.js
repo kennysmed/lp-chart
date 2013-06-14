@@ -7,13 +7,31 @@ function LPChart() {
     yearmonth: function(d) { return d3.time.format('%b %Y')(d); }
   };
 
-  var margin = {top: 20, right: 20, bottom: 20, left: 20},
-      width = 760,
+  var line = d3.svg.line().x(X).y(Y),
+      // Default margins, which can be overridden with chart.margin():
+      margin = {top: 20, right: 20, bottom: 20, left: 20},
+      // Default width and height, which can be overridden with
+      // chart.width() and chart.height():
+      width = 384,
       height = 120,
-      line = d3.svg.line().x(X).y(Y),
-      // The default axis types:
+      // The rough number of ticks. Override with chart.xAxisTicks() and
+      // chart.yAxisTicks().
+      xAxisTicks = 10,
+      yAxisTicks = 10,
+      // The default axis types, which can be overriden with
+      // chart.xAxisType() and chart.yAxisType():
       xAxisType = 'numeric',
-      yAxisType = 'numeric';
+      yAxisType = 'numeric',
+      // Will have extra things applied in chart(), based on axis types:
+      xAxis = d3.svg.axis().orient('bottom').tickSize(6, 0),
+      yAxis = d3.svg.axis().orient('left').tickSize(6, 0),
+      // Will be set in chart() based on axis types:
+      xValue = null,
+      yValue = null,
+      xScale = null,
+      yScale = null,
+      xTickFormat = null,
+      yTickFormat = null;
 
   // Keys are valid values for xAxisType and yAxisType, which can be set using
   // chart.xAxisType() and chart.yAxisType.
@@ -47,26 +65,18 @@ function LPChart() {
     }
   };
 
-  // Set the default values based on the default axis types:
-  var xValue = xAxisTypes[xAxisType].value,
-      yValue = yAxisTypes[yAxisType].value,
-      xScale = xAxisTypes[xAxisType].scale,
-      yScale = yAxisTypes[yAxisType].scale,
-      xTickFormat = xAxisTypes[xAxisType].tickFormat,
-      yTickFormat = yAxisTypes[yAxisType].tickFormat,
-      xAxis = d3.svg.axis().orient('bottom').tickSize(6, 0).scale(xScale).tickFormat(xTickFormat),
-      yAxis = d3.svg.axis().orient('left').tickSize(6, 0).scale(yScale).tickFormat(yTickFormat);
 
   function chart(selection) {
-    // Reset the default values for this particular chart:
+    // Set the values for this particular chart based on axis types:
     xValue = xAxisTypes[xAxisType].value;
     yValue = yAxisTypes[yAxisType].value;
     xScale = xAxisTypes[xAxisType].scale;
     yScale = yAxisTypes[yAxisType].scale;
     xTickFormat = xAxisTypes[xAxisType].tickFormat;
     yTickFormat = yAxisTypes[yAxisType].tickFormat;
-    xAxis.scale(xScale).tickFormat(xTickFormat);
-    yAxis.scale(yScale).tickFormat(yTickFormat);
+    // Some aspects of the axes need to be updated:
+    xAxis.scale(xScale).tickFormat(xTickFormat).ticks(xAxisTicks);
+    yAxis.scale(yScale).tickFormat(yTickFormat).ticks(yAxisTicks);
 
     // For each of the lines...
     selection.each(function(orig_datasets) {

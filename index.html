@@ -16,6 +16,13 @@
     .line-2 {
     	stroke: #0c0;
     }
+    .chart {
+    	width: 600px;
+    	height: 220px;
+    }
+    #chart3 {
+    	width: 450px;
+    }
   </style>
 
   <script src="js/d3.v3.min.js"></script>
@@ -62,7 +69,7 @@
 
       // Set up the chart instance:
       var chart = LPChart()
-	      .xAxisType('yearmonth');
+	      .xAxisType('yearmonth').xAxisTicks(4);
 
       // Draw each chart in turn.
       // The datasets are passed in in an array.
@@ -71,13 +78,13 @@
         .datum([data_1a, data_1b])
         .call(chart);
 
-      chart.xAxisType('date');
+      chart.xAxisType('date').xAxisTicks(8);
 
       d3.select("#chart2")
       	.datum([data2])
       	.call(chart);
 
-      chart.xAxisType('numeric');
+      chart.xAxisType('numeric').width(800).xAxisTicks(7);
 
       d3.select('#chart3')
       	.datum([data3a, data3b])
@@ -88,13 +95,13 @@
 <body>
 
 	<p>Year months</p>
-  <div id="chart1"></div>
+  <div id="chart1" class="chart"></div>
 
   <p>Dates</p>
-  <div id="chart2"></div>
+  <div id="chart2" class="chart"></div>
 
   <p>Numeric</p>
-  <div id="chart3"></div>
+  <div id="chart3" class="chart"></div>
 
 </body>
 </html>
