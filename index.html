@@ -32,10 +32,6 @@
     .line-2 {
     	stroke: #0c0;
     }
-    .chart {
-    	width: 600px;
-    	height: 220px;
-    }
     #chart3 {
     	width: 450px;
     }
@@ -100,7 +96,7 @@
       	.datum([data2])
       	.call(chart);
 
-      chart.xAxisType('weekday')
+      chart.xAxisType('weekday').height(160);
 
       d3.select("#chart3")
       	.datum([data2])

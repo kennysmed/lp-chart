@@ -129,7 +129,7 @@ function LPChart() {
 
       // Otherwise, create the skeletal chart.
       var gEnter = svg.enter().append("svg").append("g");
-      gEnter.append("g").attr("class", "x axis axis-x");
+      gEnter.append("g").attr("class", "axis axis-x");
 
       // Update the outer dimensions.
       svg .attr("width", width)
@@ -147,7 +147,7 @@ function LPChart() {
        .attr("d", line);
 
       // Update the x-axis.
-      g.select(".x.axis")
+      g.select(".axis-x")
           .attr("transform", "translate(0," + yScale.range()[0] + ")")
           .call(xAxis);
     });
