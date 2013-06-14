@@ -1,4 +1,12 @@
 function LPChart() {
+
+  var tickFormats = {
+    date: function(d) { return d3.time.format('%e %b')(d); },
+    numeric: function(d) { return d3.format(',')(d); },
+    year: function(d) { return d3.time.format('%Y')(d); },
+    yearmonth: function(d) { return d3.time.format('%b %Y')(d); }
+  };
+
   var margin = {top: 20, right: 20, bottom: 20, left: 20},
       width = 760,
       height = 120,
@@ -7,33 +15,42 @@ function LPChart() {
       yValue = function(d) { return +d[1]; },
       xScale = d3.scale.linear(),
       yScale = d3.scale.linear(),
+      xTickFormat = tickFormats.numeric,
+      yTickFormat = tickFormats.numeric,
       xAxis = d3.svg.axis().scale(xScale).orient("bottom").tickSize(6, 0),
       line = d3.svg.line().x(X).y(Y),
       xAxisType = 'numeric',
       yAxisType = 'numeric';
 
-  var x_axis_types = {
-    date:       {
+  // Keys are valid values for xAxisType and yAxisType, which can be set using
+  // chart.xAxisType() and chart.yAxisType.
+  var xAxisTypes = {
+    date: {
       value: function(d) { return d3.time.format("%Y-%m-%d").parse(d[0]); },
-      scale: d3.time.scale()
+      scale: d3.time.scale(),
+      tickFormat: tickFormats.date 
     },
-    numeric:    {
+    numeric: {
       value: function(d) { return +d[0]; },
-      scale: d3.scale.linear()
+      scale: d3.scale.linear(),
+      tickFormat: tickFormats.numeric
     },
-    year:       {
+    year: {
       value: function(d) { return d3.time.format("%Y").parse(d[0]); },
-      scale: d3.time.scale()
+      scale: d3.time.scale(),
+      tickFormat: tickFormats.year
     },
     yearmonth:  {
       value: function(d) { return d3.time.format("%Y-%m").parse(d[0]); },
-      scale: d3.time.scale()
+      scale: d3.time.scale(),
+      tickFormat: tickFormats.yearmonth
     }
   };
-  var y_axis_types = {
-    numeric:    {
+  var yAxisTypes = {
+    numeric: {
       value: function(d) { return +d[1]; },
-      scale: d3.scale.linear()
+      scale: d3.scale.linear(),
+      tickFormat: tickFormats.numeric
     }
   };
 
@@ -56,11 +73,11 @@ function LPChart() {
       // Set the domains to go from min to max of all the datasets' x values.
       xScale
           .domain([
-            d3.min(datasets, function(ds) { 
-              return d3.min(ds, function(d) { return d[0]; })
+            d3.min(datasets, function(ds) {
+              return d3.min(ds, function(d) { return d[0]; });
             }),
-            d3.max(datasets, function(ds) { 
-              return d3.max(ds, function(d) { return d[0]; })
+            d3.max(datasets, function(ds) {
+              return d3.max(ds, function(d) { return d[0]; });
             })
           ])
           .range([0, width - margin.left - margin.right]);
@@ -70,8 +87,8 @@ function LPChart() {
       yScale
           .domain([
             0,
-            d3.max(datasets, function(ds) { 
-              return d3.max(ds, function(d) { return d[1]; })
+            d3.max(datasets, function(ds) {
+              return d3.max(ds, function(d) { return d[1]; });
             })
           ])
           .range([height - margin.top - margin.bottom, 0]);
@@ -105,34 +122,36 @@ function LPChart() {
     });
   }
 
-  // The x-accessor for the path generator; xScale âˆ˜ xValue.
+  // The x-accessor for the path generator; xScale . xValue.
   function X(d) {
     return xScale(d[0]);
   }
 
-  // The x-accessor for the path generator; yScale âˆ˜ yValue.
+  // The x-accessor for the path generator; yScale . yValue.
   function Y(d) {
     return yScale(d[1]);
   }
 
   chart.xAxisType = function(_) {
     if (!arguments.length) return xAxisType;
-    if (_ in x_axis_types) {
+    if (_ in xAxisTypes) {
       xAxisType = _;
-      xValue = x_axis_types[_].value;
-      xScale = x_axis_types[_].scale;
-      xAxis.scale(xScale);
+      xValue = xAxisTypes[_].value;
+      xScale = xAxisTypes[_].scale;
+      xTickFormat = xAxisTypes[_].tickFormat;
+      xAxis.scale(xScale).tickFormat(xTickFormat);
     };
     return chart;
   };
 
   chart.yAxisType = function(_) {
     if (!arguments.length) return yAxisType;
-    if (_ in y_axis_types) {
+    if (_ in yAxisTypes) {
       yAxisType = _;
-      yValue = y_axis_types[_].value;
-      yScale = y_axis_types[_].scale;
-      yAxis.scale(yScale);
+      yValue = yAxisTypes[_].value;
+      yScale = yAxisTypes[_].scale;
+      yTickFormat = yAxisTypes[_].tickFormat;
+      yAxis.scale(yScale).tickFormat(yTickFormat);
     };
     return chart;
   };
