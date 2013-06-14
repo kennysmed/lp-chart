@@ -24,8 +24,8 @@ function LPChart() {
       xAxisType = 'numeric',
       yAxisType = 'numeric',
       // Will have extra things applied in chart(), based on axis types:
-      xAxis = d3.svg.axis().orient('bottom').tickSize(6, 0),
-      yAxis = d3.svg.axis().orient('left').tickSize(6, 0),
+      xAxis = d3.svg.axis().orient('bottom').tickSize(6, 0, 0),
+      yAxis = d3.svg.axis().orient('left').tickSize(6, 0, 0),
       // Will be set in chart() based on axis types:
       xValue = null,
       yValue = null,
@@ -129,7 +129,7 @@ function LPChart() {
 
       // Otherwise, create the skeletal chart.
       var gEnter = svg.enter().append("svg").append("g");
-      gEnter.append("g").attr("class", "x axis");
+      gEnter.append("g").attr("class", "x axis axis-x");
 
       // Update the outer dimensions.
       svg .attr("width", width)

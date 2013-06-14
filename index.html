@@ -5,10 +5,26 @@
   <title>d3 test</title>
 
   <style type="text/css">
+  	/* Styles that we should make default for all charts: */
     .line {
       fill: none;
       stroke-width: 1.5px;
     }
+    .axis text {
+    	font-size: 14px;
+    	font-family: Arial, sans-serif;
+    }
+    .axis path {
+    	stroke: #000;
+    	stroke-width: 1px;
+    	shape-rendering: crispEdges;
+    }
+    .axis .tick line {
+    	stroke: #000;
+    	stroke-width: 1px;
+    	shape-rendering: crispEdges;
+    }
+
     /* Each line on a chart will have a number from 1 upwards. */
     .line-1 {
       stroke: #c00;
