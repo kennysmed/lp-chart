@@ -9,8 +9,11 @@ function LPChart() {
   };
 
   var line = d3.svg.line().x(X).y(Y),
-      // Default margins, which can be overridden with chart.margin():
-      margin = {top: 10, right: 20, bottom: 20, left: 50},
+      // Default margins so we can change the margins back to them:
+      marginDefaults = {top: 10, right: 20, bottom: 20, left: 50},
+      // These might change for each chart:
+      margin = {top: marginDefaults.top, right: marginDefaults.right,
+                bottom: marginDefaults.bottom, left: marginDefaults.left},
       // Default width and height, which can be overridden with
       // chart.width() and chart.height():
       // These are the width and height allocated to the entire chart,
@@ -88,6 +91,13 @@ function LPChart() {
     xAxis.scale(xScale).tickFormat(xTickFormat).ticks(xAxisTicks);
     yAxis.scale(yScale).tickFormat(yTickFormat).ticks(yAxisTicks);
 
+    if (showXAxis) {
+      margin.bottom = marginDefaults.bottom;
+    } else {
+      // Enough for bottom label on y-axis to not be clipped:
+      margin.bottom = 5;
+    }
+    
     // The dimensions of the chart area itself.
     var innerWidth = width - margin.left - margin.right;
     var innerHeight = height - margin.top - margin.bottom;
@@ -193,11 +203,11 @@ function LPChart() {
     return chart;
   };
 
-  chart.margin = function(_) {
-    if (!arguments.length) return margin;
-    margin = _;
-    return chart;
-  };
+  // chart.margin = function(_) {
+  //   if (!arguments.length) return margin;
+  //   margin = _;
+  //   return chart;
+  // };
 
   chart.width = function(_) {
     if (!arguments.length) return width;
