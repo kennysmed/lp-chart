@@ -206,13 +206,13 @@ function LPChart() {
         var lastTick = d3.select(
                 d3.select(this).select('.axis-x').selectAll('.tick')[0].pop()
               );
-        var lastTickWidth = lastTick.node().getBBox().width; 
+        var lastTickWidth = lastTick.node().getBBox().width;
         xAxisMarginRight = lastTickWidth / 2;
 
         // Now remove the dummy x-axis.
         g.select(".axis-x").remove();
       }
-      
+
 
       // Having drawn the y-axis and the dummy x-axis, we now know the most
       // space we need to leave on the left and right of the chart area:
@@ -248,7 +248,7 @@ function LPChart() {
        .enter()
        .append("path")
        .attr("class", function(d,i) { return "line line-"+(i+1); })
-       .attr("d", line)
+       .attr("d", line);
 
       g.attr("transform", "translate(" + marginLeft + "," + marginTop + ")");
     });
