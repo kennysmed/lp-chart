@@ -80,7 +80,7 @@
       var data3a = [[1, 10], [2, 12], [3, 15], [5, 14], [6, 20], [7, 8]];
       var data3b = [[1, 5], [2, 3], [3, 0], [5, 2], [6, 1], [7, 7]];
 
-      var data4 = [['00:00', 44], ['01:00', '64'], ['02:00', '64'], ['03:00', 12], ['04:00', 98], ['05:00', 87], ['06:00', 23]];
+      var data4 = [['00:00', 44], ['01:00', '64'], ['02:00', '64'], ['03:00', 0], ['04:00', 98], ['05:00', 87], ['06:00', 23]];
 
       var data5 = [['01', '100'], ['02', 200], ['03', 350], ['04', 480], ['05', 654], ['06', 123]];
 
@@ -116,13 +116,13 @@
       	.datum([data3a, data3b])
       	.call(chart);
 
-      chart.xAxisType('hour').width('100%').height(200);
+      chart.xAxisType('hour').width('100%').height(200).showXAxisGrid(true);
 
       d3.select('#chart5')
       	.datum([data4])
       	.call(chart);
 
-      chart.xAxisType('month');
+      chart.xAxisType('month').showYAxisGrid(false);
 
       d3.select('#chart6')
       	.datum([data5])

@@ -8,6 +8,10 @@ To do:
 * Add filled-in style.
 * Allow for negative values.
 * Allow for setting custom tickFormats.
-* Add horizontal or vertical lines across chart.
 
 * Add bar chart?
+
+
+To fix:
+
+* When showXAxisGrid is true, then there's no padding between the xAxis labels and the xAxis line. Don't know why.

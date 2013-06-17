@@ -175,21 +175,24 @@ function LPChart() {
                             );
     }
 
+    marginLeft = 0;
+    marginRight = 0;
+    marginTop = 0;
+    marginBottom = 0;
+
     if (showXAxis) {
       // Enough space for text:
-      marginBottom = 12;
+      marginBottom = 12 + xAxis.tickPadding();
 
       // Add some space for the ticks and their padding.
       if ( ! showXAxisGrid) {
-        marginBottom += xAxisTickSize + xAxis.tickPadding();
+        marginBottom += xAxisTickSize;
       }
 
     } else {
       if (showYAxis) {
         // Enough space for bottom label on y-axis to not be clipped:
         marginBottom = 5;
-      } else {
-        marginBottom = 0;
       }
     }
     if (showYAxis) {
@@ -202,15 +205,13 @@ function LPChart() {
     } else {
       // Should stop peaks of lines being clipped:
       marginTop = 1;
-      marginLeft = 0;
     }
 
-
-    // The dimensions of the chart area itself.
-
+    // I don't quite understand why `this` on its own no longer works.
+    var container = this[0][0];
 
     // Select the svg element, if it exists.
-    var svg = d3.select(this[0][0]).selectAll("svg").data([datasets]);
+    var svg = d3.select(container).selectAll("svg").data([datasets]);
 
     // Otherwise, create the skeletal chart.
     var gEnter = svg.enter().append("svg").append("g");
@@ -249,12 +250,12 @@ function LPChart() {
         .attr("transform", "translate(0," + yScale.range()[0] + ")")
         .call(xAxis);
 
-      var firstTick = d3.select(this[0][0]).select('.axis-x').select('.tick');
+      var firstTick = d3.select(container).select('.axis-x').select('.tick');
       var firstTickWidth = firstTick.node().getBBox().width;
       xAxisMarginLeft = firstTickWidth / 2;
 
       var lastTick = d3.select(
-              d3.select(this[0][0]).select('.axis-x').selectAll('.tick')[0].pop()
+              d3.select(container).select('.axis-x').selectAll('.tick')[0].pop()
             );
       var lastTickWidth = lastTick.node().getBBox().width;
       xAxisMarginRight = lastTickWidth / 2;
@@ -277,20 +278,21 @@ function LPChart() {
 
       // Get the width of the widest y-axis label.
       var maxYTickW = 0;
-      d3.select(this[0][0]).select('.axis-y').selectAll('text').each(function(){
+      d3.select(container).select('.axis-y').selectAll('text').each(function(){
         if (this.getBBox().width > maxYTickW) maxYTickW = this.getBBox().width;
       });
 
-      yAxisMarginLeft = maxYTickW;
+      yAxisMarginLeft = maxYTickW + xAxis.tickPadding();
 
-      // We need to add some for the ticks and their padding.
+      // We need to add some for the ticks.
       if ( ! showYAxisGrid) {
-        yAxisMarginLeft += yAxisTickSize + xAxis.tickPadding();
+        yAxisMarginLeft += yAxisTickSize;
       }
 
       // Now remove the dummy x-axis.
       g.select(".axis-y").remove();
     }
+
 
     // Now we can calculate the exact left/right margins we need,
     // and therefore the innerWidth.
@@ -308,7 +310,7 @@ function LPChart() {
     }
 
     xScale.domain([minX, maxX])
-          .range([0, innerWidth])
+          .range([0, innerWidth]);
 
     if (showXAxis) {
       gEnter.append("g").attr("class", "axis axis-x");
@@ -326,24 +328,14 @@ function LPChart() {
       yAxis.tickSize(yAxisTickSize, 0, 0);
     }
 
-    yScale
-        .domain([0, maxY])
-        .range([innerHeight, 0]);
+    yScale.domain([0, maxY])
+          .range([innerHeight, 0]);
 
     if (showYAxis) {
       // Add it.
       gEnter.append("g").attr("class", "axis axis-y");
       g.select(".axis-y")
         .call(yAxis);
-
-      // Get the width of the widest y-axis label.
-      var maxYTickW = 0;
-      d3.select(this[0][0]).select('.axis-y').selectAll('text').each(function(){
-        if (this.getBBox().width > maxYTickW) maxYTickW = this.getBBox().width;
-      });
-
-      // We add 8px to allow for the ticks and space:
-      yAxisMarginLeft = maxYTickW + 8;
     }
 
 
