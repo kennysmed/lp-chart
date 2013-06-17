@@ -4,7 +4,6 @@ To do:
 
 * Make the means of accessing the chart more friendly - no `d3`?
 * Do something with our required default CSS styles.
-* Allow text strings for x-axis labels.
 
 Later:
 

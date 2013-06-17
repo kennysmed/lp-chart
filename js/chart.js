@@ -6,6 +6,7 @@ function LPChart() {
     hour: d3.time.format('%H:%M').parse,
     month: d3.time.format("%m").parse,
     numeric: function(d) { return +d; },
+    string: function(d) { return d; },
     year: d3.time.format("%Y").parse,
     yearmonth: d3.time.format("%Y-%m").parse
   };
@@ -16,6 +17,7 @@ function LPChart() {
     hour: function(d) { return d3.time.format('%H:%M')(d); },
     month: function(d) { return d3.time.format('%b')(d); },
     numeric: function(d) { return d3.format(',')(d); },
+    string: function(d) { return d; },
     weekday: function(d) { return d3.time.format('%a')(d); },
     year: function(d) { return d3.time.format('%Y')(d); },
     yearmonth: function(d) { return d3.time.format('%b %Y')(d); }
@@ -79,27 +81,35 @@ function LPChart() {
     date: {
       scale: d3.time.scale(),
       tickFormat: tickFormats.date,
-      tickParser: tickParsers.date,
+      tickParser: tickParsers.date
     },
     hour: {
       scale: d3.time.scale(),
       tickFormat: tickFormats.hour,
       tickParser: tickParsers.hour
     },
+    month: {
+      scale: d3.time.scale(),
+      tickFormat: tickFormats.month,
+      tickParser: tickParsers.month
+    },
     numeric: {
       scale: d3.scale.linear(),
       tickFormat: tickFormats.numeric,
       tickParser: tickParsers.numeric
     },
+    string: {
+      // If you make a new axis type with an ordinal scale, note the three
+      // places in the code where we check for xAxisType == 'string'.
+      // You'll probably need those for your new type too. Ugh.
+      scale: d3.scale.ordinal(),
+      tickFormat: tickFormats.string,
+      tickParser: tickParsers.string
+    },
     weekday: {
       scale: d3.time.scale(),
       tickFormat: tickFormats.weekday,
       tickParser: tickParsers.date
-    },
-    month: {
-      scale: d3.time.scale(),
-      tickFormat: tickFormats.month,
-      tickParser: tickParsers.month
     },
     year: {
       scale: d3.time.scale(),
@@ -207,6 +217,13 @@ function LPChart() {
         minY = results.minY,
         maxY = results.maxY;
 
+    // A bit nasty. Axes with ordinal scales, currently only the 'string' axis
+    // type need a different domain (an array of all the x Axis labels).
+    var xDomain = [minX, maxX];
+    if (xAxisType == 'string') {
+      xDomain = datasets[0].map(function(n) { return n[0]; });
+    }
+
     // Set the width in pixels if it's been set as a percentage.
     if (outerWidth.toString().substr(-1) == '%') {
       outerWidth = selection[0][0].offsetWidth * (
@@ -268,10 +285,18 @@ function LPChart() {
 
     // Height of the chart-area itself.
     innerHeight = outerHeight - marginTop - marginBottom;
+    // This may change after we've drawn dummy x and y axes below:
     innerWidth = outerWidth - marginLeft - marginRight;
 
-    xScale.domain([minX, maxX])
-          .range([0, innerWidth]);
+    xScale.domain(xDomain)
+
+    if (xAxisType == 'string') {
+      // For ordinal scales:
+      xScale.rangePoints([0, innerWidth]);
+    } else {
+      xScale.range([0, innerWidth]);
+    };
+
     yScale.domain([0, maxY])
           .range([innerHeight, 0]);
 
@@ -348,8 +373,13 @@ function LPChart() {
       xAxis.tickSize(xAxisTickSize, 0, 0);
     }
 
-    xScale.domain([minX, maxX])
-          .range([0, innerWidth]);
+    // Reset to the new innerWidth.
+    if (xAxisType == 'string') {
+      // For ordinal scales:
+      xScale.rangePoints([0, innerWidth]);
+    } else {
+      xScale.range([0, innerWidth]);
+    };
 
     if (showXAxis) {
       gEnter.append("g").attr("class", "axis axis-x");
@@ -367,8 +397,8 @@ function LPChart() {
       yAxis.tickSize(yAxisTickSize, 0, 0);
     }
 
-    yScale.domain([0, maxY])
-          .range([innerHeight, 0]);
+    // Reset to the new innerHeight.
+    yScale.range([innerHeight, 0]);
 
     if (showYAxis) {
       // Add it.
