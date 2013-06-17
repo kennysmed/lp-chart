@@ -14,12 +14,12 @@ function LPChart() {
       marginRight = 0,
       marginTop = 0,
       marginBottom = 0,
-      // Default width and height, which can be overridden with
-      // chart.width() and chart.height():
+      // Width and height, which can be overridden with
+      // chart.width() and chart.height(). In pixels or a string with %.
       // These are the width and height allocated to the entire chart,
       // including labels.
-      width = 384,
-      height = 120,
+      width = '100%',
+      height = 200,
       // The rough number of ticks. Override with chart.xAxisTicks() and
       // chart.yAxisTicks().
       xAxisTicks = 8,
@@ -90,6 +90,10 @@ function LPChart() {
     // Some aspects of the axes need to be updated:
     xAxis.scale(xScale).tickFormat(xTickFormat).ticks(xAxisTicks);
     yAxis.scale(yScale).tickFormat(yTickFormat).ticks(yAxisTicks);
+
+    if (width.toString().substr(-1) == '%') {
+      width = selection[0][0].offsetWidth * (width.substr(0, width.length-1) / 100); 
+    }
 
     if (showXAxis) {
       // Enough space for ticks and text:

@@ -8,6 +8,7 @@
   	body {
   		margin: 0;
   		padding: 0;
+  		width: 384px;
   	}
   	/* Styles that we should make default for all charts: */
     .line {
@@ -34,9 +35,6 @@
     /* Each line on a chart will have a number from 1 upwards. */
     .line-2 {
     	stroke-width: 4px; 
-    }
-    #chart3 {
-    	width: 450px;
     }
   </style>
 
@@ -94,13 +92,13 @@
         .datum([data_1a, data_1b])
         .call(chart);
 
-      chart.xAxisType('date').xAxisTicks(8);
+      chart.xAxisType('date').xAxisTicks(8).width(200);
 
       d3.select("#chart2")
       	.datum([data2])
       	.call(chart);
 
-      chart.xAxisType('weekday')
+      chart.xAxisType('weekday').width('80%')
       	.height(160)
       	.showYAxis(false);
 
@@ -108,7 +106,7 @@
       	.datum([data2])
       	.call(chart);
 
-      chart.xAxisType('numeric').width(800).xAxisTicks(7).showYAxis(true);
+      chart.xAxisType('numeric').width(800).height(300).xAxisTicks(7).showYAxis(true);
 
       d3.select('#chart4')
       	.datum([data3a, data3b])
