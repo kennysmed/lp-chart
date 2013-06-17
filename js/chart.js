@@ -1,8 +1,10 @@
 function LPChart() {
 
+  // The ways we can format different types of tick data.
   var tickFormats = {
     date: function(d) { return d3.time.format('%e %b')(d); },
     numeric: function(d) { return d3.format(',')(d); },
+    hour: function(d) { return d3.time.format('%H:%M')(d); },
     weekday: function(d) { return d3.time.format('%a')(d); },
     year: function(d) { return d3.time.format('%Y')(d); },
     yearmonth: function(d) { return d3.time.format('%b %Y')(d); }
@@ -48,6 +50,11 @@ function LPChart() {
       value: function(d) { return d3.time.format("%Y-%m-%d").parse(d[0]); },
       scale: d3.time.scale(),
       tickFormat: tickFormats.date
+    },
+    hour: {
+      value: function(d) { return d3.time.format("%H:%M").parse(d[0]); },
+      scale: d3.time.scale(),
+      tickFormat: tickFormats.hour
     },
     numeric: {
       value: function(d) { return +d[0]; },
