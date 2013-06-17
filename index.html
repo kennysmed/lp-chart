@@ -96,7 +96,7 @@
         .datum([data_1a, data_1b])
         .call(chart);
 
-      chart.xAxisType('date').xAxisTicks(8).width(200).showYAxisGrid(true);;
+      chart.xAxisType('date').xAxisTicks(8).width(200).showYAxisGrid(true).xAxisTickValues(['2012-01-01', '2012-01-08']);
 
       d3.select("#chart2")
       	.datum([data2])
@@ -104,7 +104,7 @@
 
       chart.xAxisType('weekday').width('80%')
       	.height(160)
-      	.showYAxis(false);
+      	.showYAxis(false).xAxisTickValues(null);
 
       d3.select("#chart3")
       	.datum([data2])

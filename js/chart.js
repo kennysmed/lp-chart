@@ -1,11 +1,21 @@
 function LPChart() {
 
+  // How the values passed in for ticks are turned into date objects or otherwise. 
+  var tickParsers = {
+    date: d3.time.format('%Y-%m-%d').parse,
+    hour: d3.time.format('%H:%M').parse,
+    month: d3.time.format("%m").parse,
+    numeric: function(d) { return +d; },
+    year: d3.time.format("%Y").parse,
+    yearmonth: d3.time.format("%Y-%m").parse
+  };
+
   // The ways we can format different types of tick data.
   var tickFormats = {
     date: function(d) { return d3.time.format('%e %b')(d); },
-    numeric: function(d) { return d3.format(',')(d); },
     hour: function(d) { return d3.time.format('%H:%M')(d); },
     month: function(d) { return d3.time.format('%b')(d); },
+    numeric: function(d) { return d3.format(',')(d); },
     weekday: function(d) { return d3.time.format('%a')(d); },
     year: function(d) { return d3.time.format('%Y')(d); },
     yearmonth: function(d) { return d3.time.format('%b %Y')(d); }
@@ -34,9 +44,12 @@ function LPChart() {
       // chart.xAxisType() and chart.yAxisType():
       xAxisType = 'numeric',
       yAxisType = 'numeric',
-      // Will have extra things applied in chart(), based on axis types:
-      xAxis = d3.svg.axis().orient('bottom'),
-      yAxis = d3.svg.axis().orient('left'),
+      // If these are arrays they will be used for the x/y tick labels.
+      // This overrides the xAxisTicks and yAxisTicks values.
+      // Set to null to let d3 generate them.
+      // Set with chart.xAxisTickValues() and chart.yAxisTickValues().
+      xAxisTickValues = null,
+      yAxisTickValues = null,
       // Do we show the x or y axes?
       // Set with chart.showXAxis() and chart.showYAxis().
       showXAxis = true,
@@ -45,6 +58,9 @@ function LPChart() {
       // Set with chart.showXAxisGrid() and chart.showYAxisGrid().
       showXAxisGrid = false,
       showYAxisGrid = false,
+      // Will have extra things applied in chart(), based on axis types:
+      xAxis = d3.svg.axis().orient('bottom'),
+      yAxis = d3.svg.axis().orient('left'),
       // Will be set in chart() based on axis types:
       xValue = null,
       yValue = null,
@@ -61,46 +77,46 @@ function LPChart() {
   // item on the x-axis.
   var xAxisTypes = {
     date: {
-      value: function(d) { return d3.time.format("%Y-%m-%d").parse(d[0]); },
       scale: d3.time.scale(),
-      tickFormat: tickFormats.date
+      tickFormat: tickFormats.date,
+      tickParser: tickParsers.date,
     },
     hour: {
-      value: function(d) { return d3.time.format("%H:%M").parse(d[0]); },
       scale: d3.time.scale(),
-      tickFormat: tickFormats.hour
+      tickFormat: tickFormats.hour,
+      tickParser: tickParsers.hour
     },
     numeric: {
-      value: function(d) { return +d[0]; },
       scale: d3.scale.linear(),
-      tickFormat: tickFormats.numeric
+      tickFormat: tickFormats.numeric,
+      tickParser: tickParsers.numeric
     },
     weekday: {
-      value: function(d) { return d3.time.format("%Y-%m-%d").parse(d[0]); },
       scale: d3.time.scale(),
-      tickFormat: tickFormats.weekday
+      tickFormat: tickFormats.weekday,
+      tickParser: tickParsers.date
     },
     month: {
-      value: function(d) { return d3.time.format("%m").parse(d[0]); },
       scale: d3.time.scale(),
-      tickFormat: tickFormats.month
+      tickFormat: tickFormats.month,
+      tickParser: tickParsers.month
     },
     year: {
-      value: function(d) { return d3.time.format("%Y").parse(d[0]); },
       scale: d3.time.scale(),
-      tickFormat: tickFormats.year
+      tickFormat: tickFormats.year,
+      tickParser: tickParsers.year
     },
     yearmonth:  {
-      value: function(d) { return d3.time.format("%Y-%m").parse(d[0]); },
       scale: d3.time.scale(),
-      tickFormat: tickFormats.yearmonth
+      tickFormat: tickFormats.yearmonth,
+      tickParser: tickParsers.yearmonth
     }
   };
   var yAxisTypes = {
     numeric: {
-      value: function(d) { return +d[1]; },
       scale: d3.scale.linear(),
-      tickFormat: tickFormats.numeric
+      tickFormat: tickFormats.numeric,
+      tickParser: tickParsers.numeric
     }
   };
 
@@ -150,15 +166,38 @@ function LPChart() {
     };
 
     // Set the values for this particular chart based on axis types:
-    xValue = xAxisTypes[xAxisType].value;
-    yValue = yAxisTypes[yAxisType].value;
+    xValue = function(d) { return xAxisTypes[xAxisType].tickParser(d[0]); };
+    yValue = function(d) { return yAxisTypes[yAxisType].tickParser(d[1]); };
     xScale = xAxisTypes[xAxisType].scale;
     yScale = yAxisTypes[yAxisType].scale;
     xAxisTickFormat = xAxisTypes[xAxisType].tickFormat;
     yAxisTickFormat = yAxisTypes[yAxisType].tickFormat;
+
     // Some aspects of the axes need to be updated:
     xAxis.scale(xScale).tickFormat(xAxisTickFormat).ticks(xAxisTicks);
     yAxis.scale(yScale).tickFormat(yAxisTickFormat).ticks(yAxisTicks);
+
+    // If the chart has specific tickValues set for x or y axes,
+    // parse their values and set them. Otherwise, revert to null.
+    if (xAxisTickValues !== null) {
+      xAxis.tickValues(
+        xAxisTickValues.map(function(x) {
+          return xAxisTypes[xAxisType].tickParser(x);
+        })
+      );
+    } else {
+      xAxis.tickValues(null);
+    }
+
+    if (yAxisTickValues !== null) {
+      yAxis.tickValues(
+        yAxisTickValues.map(function(y) {
+          return yAxisTypes[yAxisType].tickParser(y);
+        })
+      );
+    } else {
+      yAxis.tickValues(null);
+    }
 
     // Process the datasets and get the min/max axes values.
     var results = process_datasets(selection);
@@ -282,7 +321,7 @@ function LPChart() {
         if (this.getBBox().width > maxYTickW) maxYTickW = this.getBBox().width;
       });
 
-      yAxisMarginLeft = maxYTickW + xAxis.tickPadding();
+      yAxisMarginLeft = maxYTickW + yAxis.tickPadding();
 
       // We need to add some for the ticks.
       if ( ! showYAxisGrid) {
@@ -421,13 +460,25 @@ function LPChart() {
     if (!arguments.length) return showXAxisGrid;
     showXAxisGrid = _;
     return chart;
-  }
+  };
 
   chart.showYAxisGrid = function(_) {
     if (!arguments.length) return showYAxisGrid;
     showYAxisGrid = _;
     return chart;
-  }
+  };
+
+  chart.xAxisTickValues = function(_) {
+    if (!arguments.length) return xAxisTickValues;
+    xAxisTickValues = _;
+    return chart;
+  };
+
+  chart.yAxisTickValues = function(_) {
+    if (!arguments.length) return yAxisTickValues;
+    yTickValues = _;
+    return chart;
+  };
 
   chart.x = function(_) {
     if (!arguments.length) return xValue;
