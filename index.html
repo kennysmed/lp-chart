@@ -68,7 +68,7 @@
       // One set of data for the second chart:
       var data2 = [
         ['2012-01-01', '1394.46'],
-        ['2012-01-02', '366.42'],
+        ['2012-01-02', '0'],
         ['2012-01-03', '1598.58'],
         ['2012-01-04', '952.43'],
         ['2012-01-05', '1420.6'],
@@ -96,7 +96,7 @@
         .datum([data_1a, data_1b])
         .call(chart);
 
-      chart.xAxisType('date').xAxisTicks(8).width(200);
+      chart.xAxisType('date').xAxisTicks(8).width(200).showYAxisGrid(true);;
 
       d3.select("#chart2")
       	.datum([data2])
