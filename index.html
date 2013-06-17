@@ -82,6 +82,8 @@
 
       var data4 = [['00:00', 44], ['01:00', '64'], ['02:00', '64'], ['03:00', 12], ['04:00', 98], ['05:00', 87], ['06:00', 23]];
 
+      var data5 = [['01', '100'], ['02', 200], ['03', 350], ['04', 480], ['05', 654], ['06', 123]];
+
       // Set up the chart instance:
       var chart = LPChart();
 
@@ -114,10 +116,16 @@
       	.datum([data3a, data3b])
       	.call(chart);
 
-      chart.xAxisType('hour').width('100%').height(200).showYAxis(true);
+      chart.xAxisType('hour').width('100%').height(200);
 
       d3.select('#chart5')
       	.datum([data4])
+      	.call(chart);
+
+      chart.xAxisType('month');
+
+      d3.select('#chart6')
+      	.datum([data5])
       	.call(chart);
     };
   </script>
@@ -138,5 +146,8 @@
 
   <p>Hour</p>
   <div id="chart5" class="chart"></div>
+
+  <p>Month</p>
+  <div id="chart6" class="chart"></div>
 </body>
 </html>

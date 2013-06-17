@@ -9,7 +9,5 @@ To do:
 * Allow for negative values.
 * Allow for setting custom tickFormats.
 * Add horizontal or vertical lines across chart.
-* Add hour xAxis type.
-* Add month xAxis type.
 
 * Add bar chart?

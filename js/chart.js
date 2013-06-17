@@ -5,6 +5,7 @@ function LPChart() {
     date: function(d) { return d3.time.format('%e %b')(d); },
     numeric: function(d) { return d3.format(',')(d); },
     hour: function(d) { return d3.time.format('%H:%M')(d); },
+    month: function(d) { return d3.time.format('%b')(d); },
     weekday: function(d) { return d3.time.format('%a')(d); },
     year: function(d) { return d3.time.format('%Y')(d); },
     yearmonth: function(d) { return d3.time.format('%b %Y')(d); }
@@ -45,6 +46,8 @@ function LPChart() {
 
   // Keys are valid values for xAxisType and yAxisType, which can be set using
   // chart.xAxisType() and chart.yAxisType.
+  // The formats in the `value` functions show the formats we expect for each
+  // item on the x-axis.
   var xAxisTypes = {
     date: {
       value: function(d) { return d3.time.format("%Y-%m-%d").parse(d[0]); },
@@ -65,6 +68,11 @@ function LPChart() {
       value: function(d) { return d3.time.format("%Y-%m-%d").parse(d[0]); },
       scale: d3.time.scale(),
       tickFormat: tickFormats.weekday
+    },
+    month: {
+      value: function(d) { return d3.time.format("%m").parse(d[0]); },
+      scale: d3.time.scale(),
+      tickFormat: tickFormats.month
     },
     year: {
       value: function(d) { return d3.time.format("%Y").parse(d[0]); },
