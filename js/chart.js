@@ -92,7 +92,7 @@ function LPChart() {
     yAxis.scale(yScale).tickFormat(yTickFormat).ticks(yAxisTicks);
 
     if (width.toString().substr(-1) == '%') {
-      width = selection[0][0].offsetWidth * (width.substr(0, width.length-1) / 100); 
+      width = selection[0][0].offsetWidth * (width.substr(0, width.length-1) / 100);
     }
 
     if (showXAxis) {
