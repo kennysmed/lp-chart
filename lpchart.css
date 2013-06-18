@@ -7,7 +7,7 @@ sequentially from 1.
 */
 .line {
   fill: none;
-  stroke-width: 1px;
+  stroke-width: 2px;
   stroke: #000;
   shape-rendering: crispEdges;
 }
