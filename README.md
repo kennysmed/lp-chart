@@ -1,8 +1,11 @@
+# Little Printer JavaScript Charts.
 
+LPChart v1.0  
+2013-06-18
 
 To do:
 
-* Make the means of accessing the chart more friendly - no `d3`?
+* Documentation.
 
 Later:
 
@@ -10,7 +13,6 @@ Later:
 * Add filled-in style.
 * Allow for negative values.
 * Allow for setting custom tickFormats.
-
 
 To fix:
 

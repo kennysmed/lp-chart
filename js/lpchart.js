@@ -1,3 +1,6 @@
+// LPChart v1.0
+// 2013-06-18
+
 function LPChart() {
 
   // How the values passed in for ticks are turned into date objects or otherwise. 
