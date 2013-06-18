@@ -523,4 +523,4 @@ function LPChart() {
   };
 
   return chart;
-};
+}
