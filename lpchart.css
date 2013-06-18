@@ -1,22 +1,36 @@
 /* Default styles for LPChart. */
 
+/*
+These are the defaults for lines drawn on the chart.
+Each line will also have a unique class like .line-1 or .line-2, numbered
+sequentially from 1.
+*/
 .line {
   fill: none;
   stroke-width: 1px;
   stroke: #000;
   shape-rendering: crispEdges;
 }
+
+/*
+The styles below apply to both x and y axes. Each also has its own class,
+either .axis-x or .axis-y */
+
+/* The labels on an axis. */
 .axis text {
 	font-size: 14px;
 	font-family: Arial, sans-serif;
 }
+/* The single main line showing an axis. */
 .axis path {
 	stroke: #000;
 	stroke-width: 1px;
 	shape-rendering: crispEdges;
 }
+/* The tick marks or grid lines for an axis. */
 .axis .tick line {
 	stroke: #000;
 	stroke-width: 1px;
 	shape-rendering: crispEdges;
 }
+
