@@ -1,0 +1,22 @@
+/* Default styles for LPChart. */
+
+.line {
+  fill: none;
+  stroke-width: 1px;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.axis text {
+	font-size: 14px;
+	font-family: Arial, sans-serif;
+}
+.axis path {
+	stroke: #000;
+	stroke-width: 1px;
+	shape-rendering: crispEdges;
+}
+.axis .tick line {
+	stroke: #000;
+	stroke-width: 1px;
+	shape-rendering: crispEdges;
+}
