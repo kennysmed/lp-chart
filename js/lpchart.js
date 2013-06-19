@@ -1,5 +1,5 @@
-// LPChart v1.0
-// 2013-06-18
+// LPChart v1.1.
+// 2013-06-19
 
 function LPChart() {
 
