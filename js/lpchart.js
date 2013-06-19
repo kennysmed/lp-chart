@@ -63,6 +63,9 @@ function LPChart() {
       // Set with chart.showXAxisGrid() and chart.showYAxisGrid().
       showXAxisGrid = false,
       showYAxisGrid = false,
+      // Do we fill the area below the line?
+      // Set with chart.fill().
+      fill = false,
       // Will have extra things applied in chart(), based on axis types:
       xAxis = d3.svg.axis().orient('bottom'),
       yAxis = d3.svg.axis().orient('left'),
@@ -291,14 +294,14 @@ function LPChart() {
     // This may change after we've drawn dummy x and y axes below:
     innerWidth = outerWidth - marginLeft - marginRight;
 
-    xScale.domain(xDomain)
+    xScale.domain(xDomain);
 
     if (xAxisType == 'string') {
       // For ordinal scales:
       xScale.rangePoints([0, innerWidth]);
     } else {
       xScale.range([0, innerWidth]);
-    };
+    }
 
     yScale.domain([0, maxY])
           .range([innerHeight, 0]);
@@ -382,7 +385,7 @@ function LPChart() {
       xScale.rangePoints([0, innerWidth]);
     } else {
       xScale.range([0, innerWidth]);
-    };
+    }
 
     if (showXAxis) {
       gEnter.append("g").attr("class", "axis axis-x");
@@ -417,12 +420,31 @@ function LPChart() {
     svg.attr("width", outerWidth)
         .attr("height", outerHeight);
 
-    // Add the line paths.
-    g.selectAll(".line").data(datasets)
-     .enter()
-     .append("path")
-     .attr("class", function(d,i) { return "line line-"+(i+1); })
-     .attr("d", line);
+    if (fill) {
+      // Draw filled areas.
+
+      var area = d3.svg.area()
+          .x(function(d) { return xScale(d[0]); })
+          .y0(innerHeight)
+          .y1(function(d) { return yScale(d[1]); });
+
+      g.selectAll(".area")
+        .data(datasets)
+        .enter()
+        .append("path")
+        .attr('class', function(d,i) { return "area area-"+(i+1); })
+        .attr('d', area);
+
+    } else {
+      // Add line paths.
+
+      g.selectAll(".line")
+        .data(datasets)
+        .enter()
+        .append("path")
+        .attr("class", function(d,i) { return "line line-"+(i+1); })
+        .attr("d", line);
+    }
 
     g.attr("transform", "translate(" + marginLeft + "," + marginTop + ")");
   }
@@ -510,6 +532,12 @@ function LPChart() {
   chart.yAxisTickValues = function(_) {
     if (!arguments.length) return yAxisTickValues;
     yTickValues = _;
+    return chart;
+  };
+
+  chart.fill = function(_) {
+    if (!arguments.length) return fill;
+    fill = _;
     return chart;
   };
 

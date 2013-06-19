@@ -10,7 +10,6 @@ To do:
 Later:
 
 * Add bar chart?
-* Add filled-in style.
 * Allow for negative values.
 * Allow for setting custom tickFormats.
 

@@ -117,6 +117,12 @@
       d3.select('#chart7')
       	.datum([data6])
       	.call(chart);
+
+      chart.xAxisType('string').fill(true);
+
+      d3.select('#chart8')
+      	.datum([data6])
+      	.call(chart);
     };
   </script>
 </head>
@@ -142,5 +148,8 @@
 
   <p>String</p>
   <div id="chart7" class="chart"></div>
+
+  <p>String</p>
+  <div id="chart8" class="chart"></div>
 </body>
 </html>

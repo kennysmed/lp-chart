@@ -34,3 +34,9 @@ either .axis-x or .axis-y */
 	shape-rendering: crispEdges;
 }
 
+/* When a filled chart is specified then... 
+Each area will also have a unique class like .area-1 or .area-2, numbered
+sequentially from 1. */
+.area {
+  fill: #000;
+}
