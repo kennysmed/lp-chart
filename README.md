@@ -1,4 +1,4 @@
-# Little Printer JavaScript Charts
+# LPChart: Little Printer JavaScript Charts
 
 LPChart v1.1  
 2013-06-19
