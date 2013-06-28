@@ -1,0 +1,20 @@
+
+  // Each x-axis value is a year-month string.
+  var my_data = [
+    ['2012-11', 10],
+    ['2012-12', 35],
+    ['2013-01', 25],
+    ['2013-02', 0],
+    ['2013-03', 15],
+    ['2013-04', 20],
+    ['2013-05', 15]
+  ];
+
+  var chart = LPChart();
+
+  // We set the x-axis type to match our data:
+  chart.xAxisType('yearmonth');
+
+  d3.select('#chart-axis-type-yearmonth')
+    .datum([my_data])
+    .call(chart);

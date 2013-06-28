@@ -1,0 +1,34 @@
+
+  // Each line has the same type of
+  // x-axis values (years in this case)
+  // but they can be different values.
+  var line_1 = [
+    ['2000', 25],
+    ['2001', 0],
+    ['2002', 15],
+    ['2003', 20],
+    ['2004', 15],
+    ['2005', 10],
+    ['2006', 15],
+    ['2007', 10]
+  ];
+
+  var line_2 = [
+    ['2003', 10],
+    ['2004', 35],
+    ['2005', 25],
+    ['2006', 20],
+    ['2007', 15],
+    ['2008', 25],
+    ['2009', 35]
+  ];
+
+  var chart = LPChart();
+
+  chart.xAxisType('year');
+
+  d3.select('#chart-lines-style')
+    // Pass both sets of line data in
+    // an array:
+    .datum([line_1, line_2])
+    .call(chart);

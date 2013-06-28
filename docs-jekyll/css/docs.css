@@ -1,0 +1,140 @@
+body {
+	background: #fdf6e3;
+	color: #073642;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	padding: 0.5em 10px;
+}
+a {
+	color: #268BD2;
+}
+a:visited {
+	color: #6c71c4;
+}
+p {
+	line-height: 22px;
+	margin:  0 0 22px 0;
+}
+ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+li {
+	margin: 0;
+	padding: 0;
+	line-height: 22px;
+}
+pre {
+	background: #eee8d5;
+	margin: 0;
+	padding: 0.5em 5px;
+	font-size: 13px;
+}
+code {
+	background: #eee8d5;
+	color: #586E75
+}
+table {
+	width: 100%;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+	th,
+	td {
+		text-align: left;
+		vertical-align: top;
+		line-height: 22px;
+		padding: 11px 10px;
+		border-bottom: 1px solid #eee8d5;
+		margin: 0;
+	}
+	th {
+		border-top: 1px solid #eee8d5;
+	}
+
+.site-title {
+	font-weight: bold;
+	margin-left: 15%;
+	color: #657b83;
+}
+.container {
+	width: 100%;
+	float: left;
+	position: relative;
+}
+	.nav {
+		width: 15%;
+		position: absolute;
+		top: 53px;
+		left: 0;
+	}
+		.nav ul {
+			margin-bottom: 22px;
+		}
+		.nav ul ul {
+			margin-left: 10px;
+			margin-bottom: 0;
+		}
+		.nav li,
+		.nav p {
+			font-size: 13px;
+			line-height: 18px;
+		}
+		.nav li {
+			margin-top: 4px;
+			margin-bottom: 4px;
+		}
+		.nav .current a {
+			color: #073642;
+			text-decoration: none;
+			font-weight: bold;
+		}
+	.content {
+		width: 85%;
+		margin-left: 15%;
+		margin-bottom: 2em;
+	}
+		.page-title {
+			margin: 0 0 0.5em 0;
+			font-size: 32px;
+		}
+		.intro {
+			clear: both;
+			width: 50%;
+		}
+			.intro li {
+				margin-left: 20px;
+				list-style-type: disc;
+			}
+			.intro ul {
+				margin-bottom: 22px;
+			}
+		.code-and-chart {
+			float: left;
+			width: 100%;
+			min-width: 808px;
+			margin-bottom: 2em;
+			background: #eee8d5;
+		}
+			.page-title {
+				width: 100%;
+			}
+			.code {
+				width: 50%;
+				float: left;
+			}
+			.chart {
+				min-width: 404px;
+				width: 50%;
+				float: left;
+			}
+				.pub {
+					width: 384px;
+					margin: 20px auto 30px auto;
+					padding: 0;
+					background: #fff;
+					box-shadow: 0 5px 20px 1px #93a1a1;
+				}
+
+

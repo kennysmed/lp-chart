@@ -1,0 +1,21 @@
+
+  // Each x-axis value is a year.
+  // Note that they're strings, not integers.
+  var my_data = [
+    ['2007', 10],
+    ['2008', 35],
+    ['2009', 25],
+    ['2010', 0],
+    ['2011', 15],
+    ['2012', 20],
+    ['2013', 15]
+  ];
+
+  var chart = LPChart();
+
+  // We set the x-axis type to match our data:
+  chart.xAxisType('year');
+
+  d3.select('#chart-axis-type-year')
+    .datum([my_data])
+    .call(chart);

@@ -1,0 +1,49 @@
+
+  // Data for the first chart:
+  var chart_1_data = [
+    ['2007', 10], ['2008', 35], ['2009', 25],
+    ['2010', 0], ['2011', 15], ['2012', 20],
+    ['2013', 15]
+  ];
+
+  // Data for the second chart:
+  var chart_2_data = [
+    ['1880', 100000], ['1890', 120000], ['1900', 90000],
+    ['1910', 130000], ['1920', 135000], ['1930', 132000],
+    ['1940', 125000]
+  ];
+
+  // Data for the third chart:
+  var chart_3_data = [
+    ['01', 950], ['02', 875], ['03', 975],
+    ['04', 1020], ['05', 1045], ['06', 1030],
+    ['07', 1040]
+  ];
+
+  // Create the chart object once:
+  var chart = LPChart();
+
+  // Set options for our first chart:
+  chart.xAxisType('year')
+       .showYAxisGrid(true);
+
+  // Draw the first chart:
+  d3.select('#chart-charts-1')
+    .datum([chart_1_data])
+    .call(chart);
+
+  // For the second chart we want the same options,
+  // so we can just draw it:
+  d3.select('#chart-charts-2')
+    .datum([chart_2_data])
+    .call(chart);
+
+  // The third chart requires different options:
+  chart.xAxisType('month')
+       .showYAxisGrid(false)
+       .fill(true);
+  
+  // Now we draw the third chart:
+  d3.select('#chart-charts-3')
+    .datum([chart_3_data])
+    .call(chart);

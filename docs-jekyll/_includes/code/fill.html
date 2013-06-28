@@ -1,0 +1,20 @@
+
+  var my_data = [
+    ['2007', 10],
+    ['2008', 35],
+    ['2009', 25],
+    ['2010', 0],
+    ['2011', 15],
+    ['2012', 20],
+    ['2013', 15]
+  ];
+
+  var chart = LPChart();
+
+  chart.xAxisType('year')
+       // Give the chart a fill style:
+       .fill(true);
+
+  d3.select('#chart-fill')
+    .datum([my_data])
+    .call(chart);

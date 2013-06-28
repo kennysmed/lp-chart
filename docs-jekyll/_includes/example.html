@@ -1,0 +1,22 @@
+{% if intro %}
+<div class="intro">
+	{{ intro | markdownify }}
+</div>
+{% endif %}
+
+{% if code or chart %}
+<div class="code-and-chart">
+	{% if code %}
+		<div class="code">
+			{{ code | markdownify }}
+		</div> 
+	{% endif %}
+
+	{% if chart %}
+		<div class="chart">
+			{{ chart | markdownify }}
+		</div>
+	{% endif %}
+</div>
+{% endif %}
+

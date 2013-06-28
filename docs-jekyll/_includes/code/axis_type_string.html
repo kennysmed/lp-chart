@@ -1,0 +1,20 @@
+
+  // Each x-axis value is a string:
+  var my_data = [
+    ['Earliest', 10],
+    ['Earlier', 35],
+    ['Early', 25],
+    ['Normal', 0],
+    ['Late', 15],
+    ['Later', 20],
+    ['Latest', 15]
+  ];
+
+  var chart = LPChart();
+
+  // We set the x-axis type to match our data:
+  chart.xAxisType('string');
+
+  d3.select('#chart-axis-type-string')
+    .datum([my_data])
+    .call(chart);

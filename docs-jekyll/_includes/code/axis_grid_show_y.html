@@ -1,0 +1,20 @@
+
+  var my_data = [
+    ['2013-07-01', 10],
+    ['2013-07-02', 35],
+    ['2013-07-03', 25],
+    ['2013-07-04', 0],
+    ['2013-07-05', 15],
+    ['2013-07-06', 20],
+    ['2013-07-10', 15]
+  ];
+
+  var chart = LPChart();
+
+  chart.xAxisType('date')
+       // Turn on lines from the y-axis:
+       .showYAxisGrid(true);
+
+  d3.select('#chart-axis-grid-show-y')
+    .datum([my_data])
+    .call(chart);

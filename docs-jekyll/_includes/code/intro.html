@@ -1,0 +1,26 @@
+
+      // Data for a line is an array of arrays.
+      // Each sub-array describes a point on
+      // the line, with x and y values.
+      var my_data = [
+        ['2007', 10],
+        ['2008', 35],
+        ['2009', 25],
+        ['2010', 0],
+        ['2011', 15],
+        ['2012', 20],
+        ['2013', 15]
+      ];
+
+      // Create the LPChart object:
+      var chart = LPChart();
+
+      // Set the x-axis type to match our data:
+      chart.xAxisType('year');
+
+      // Select the element to draw the chart in,
+      // pass the data into it,
+      // and draw the chart:
+      d3.select('#chart-intro')
+        .datum( [ my_data ] )
+        .call(chart);

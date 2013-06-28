@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>LPChart{% if page.title }%} - {{page.title}}{% endif %}</title>
+
+  <!-- From http://stackoverflow.com/a/14254928/250962 -->
+  {% capture lvl %}{{ page.url | append:'index.html' | split:'/' | size }}{% endcapture %}
+  {% capture relative %}{% for i in (3..lvl) %}../{% endfor %}{% endcapture %}
+
+  <link rel="stylesheet" href="{{ relative }}../lpchart.css" type="text/css" />
+  <link rel="stylesheet" href="{{ relative }}css/syntax.css" type="text/css" />
+  <link rel="stylesheet" href="{{ relative }}css/docs.css" type="text/css" />
+
+  <script src="{{ relative }}../js/d3.v3.min.js"></script>
+  <script src="{{ relative }}../js/lpchart.js"></script>
+
+  <script type="text/javascript">
+    // So that we can use our example code blocks multiple times on one page.
+    // Instead of adding things to window.onload, do this:
+    //
+    // loadstack.push(function(win){
+    //     var my_code = 'hello';
+    // }); 
+    
+    // Prevent overwriting loadstack if it's already set:
+    var loadstack = loadstack || [];
+    
+    // Add our function that changes the <title>
+    // to the contents of the first <h1>:
+    loadstack.push(function(){
+        document.title =
+            document.getElementsByTagName('h1')[0].innerHTML;
+    });
+    
+    // ... lots of other additions to the loadstack ...
+
+    // this *must* be the last code in the <head>
+    // section's JS block (or at least the very last
+    // thing to touch window.onload):
+    
+    if ( window.onload )
+        loadstack.push(window.onload);
+    
+    window.onload = function()
+    {
+        while ( loadstack.length > 0 )
+            // `this` will be bound to the window object
+            // inside the called function
+            loadstack.pop().call(this);
+    };
+  </script>
+</head> 
+
+<body>
+  <p class="site-title">LPChart: Simple charts for Little Printer publications</p>
+
+  <div class="container">
+

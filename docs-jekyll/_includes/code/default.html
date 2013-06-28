@@ -1,0 +1,16 @@
+
+  var my_data = [
+    [1, 10],
+    [2, 35],
+    [3, 25],
+    [4, 0],
+    [5, 15],
+    [6, 20],
+    [7, 15]
+  ];
+
+  var chart = LPChart();
+
+  d3.select('#chart-default')
+    .datum([my_data])
+    .call(chart);

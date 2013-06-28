@@ -1,0 +1,22 @@
+
+  // Each x-axis value is a date string
+  // in the format YYYY-mm-dd:
+  var my_data = [
+    ['2013-07-01', 10],
+    ['2013-07-02', 35],
+    ['2013-07-03', 25],
+    ['2013-07-04', 0],
+    ['2013-07-05', 15],
+    ['2013-07-06', 20],
+    // Note that this date isn't consecutive:
+    ['2013-07-10', 15]
+  ];
+
+  var chart = LPChart();
+
+  // We set the x-axis type to match our data:
+  chart.xAxisType('date');
+
+  d3.select('#chart-axis-type-date')
+    .datum([my_data])
+    .call(chart);

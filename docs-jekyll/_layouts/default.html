@@ -1,0 +1,67 @@
+---
+navigation:
+- text: Introduction
+  url: /index.html
+- text: Reference
+  url: /reference.html
+- text: "Examples:"
+  url: none
+subnavigation:
+- text: Default
+  url: /ex_default.html
+- text: Width and Height
+  url: /ex_size.html
+- text: X-axis Types
+  url: /ex_axis_type.html
+- text: Axes and Grids
+  url: /ex_axes_grids.html
+- text: Axis Ticks
+  url: /ex_axis_tick.html
+- text: Fills
+  url: /ex_fills.html
+- text: Multiple Lines
+  url: /ex_lines.html
+- text: Multiple Charts
+  url: /ex_charts.html
+---
+
+{% include header.html %}
+
+<div class="nav">
+	<ul>
+	    {% for link in page.navigation %}
+	    <li {% if page.url == link.url %}class="current"{% endif %}>
+	    	{% if link.url != 'none' %}
+	        <a href="{{link.url|remove_first:'/'}}">{{link.text}}</a>
+	      {% else %}
+	        {{link.text}}
+	      {% endif %}
+	      {% if link.text == 'Examples:' %}
+	      	<ul>
+				    {% for sublink in page.subnavigation %}
+					    <li {% if page.url == sublink.url %}class="current"{% endif %}>
+					    	<a href="{{sublink.url|remove_first:'/'}}">{{sublink.text}}</a>
+					    </li>
+				    {% endfor %}
+	      	</ul>
+	      {% endif %}
+	    </li>
+	    {% endfor %}
+	</ul>
+
+	<p><a href="https://github.com/bergcloud/lp-chart/">Download LPChart<br />
+		from GitHub</a></p>
+	<p><a href="http://remote.bergcloud.com/developers/">BERG Cloud<br />
+		Developer docs</a></p>
+</div> <!-- .nav -->
+
+
+<div class="content">
+	<h1 class="page-title">{{ page.title }}</h1>
+
+{{content}}
+
+</div>
+
+
+{% include footer.html %}

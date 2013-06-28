@@ -1,0 +1,26 @@
+
+  var my_data = [
+    ['2007', 10],
+    ['2008', 35],
+    ['2009', 25],
+    ['2010', 0],
+    ['2011', 15],
+    ['2012', 20],
+    ['2013', 15]
+  ];
+
+  var chart = LPChart();
+
+  chart.xAxisType('year')
+       // Set the chart to be 50% of the width
+       // and 150px high:
+       .width('50%')
+       .height(150)
+       // Turn off both axes because there is
+       // not much room:
+       .showXAxis(false)
+       .showYAxis(false);
+
+  d3.select('#chart-width-height')
+    .datum([my_data])
+    .call(chart);

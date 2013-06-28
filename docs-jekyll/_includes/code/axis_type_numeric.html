@@ -1,0 +1,21 @@
+
+  var my_data = [
+    [1, 10],
+    [2, 35],
+    [3, 25],
+    [4, 0],
+    [5, 15],
+    [6, 20],
+    [7, 15]
+  ];
+
+  var chart = LPChart();
+
+  // We set the x-axis type to match our data.
+  // We could leave out this line if we just
+  // want to use the default, or set it explicitly:
+  chart.xAxisType('numeric');
+
+  d3.select('#chart-axis-type-numeric')
+    .datum([my_data])
+    .call(chart);
