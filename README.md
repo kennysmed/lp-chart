@@ -1,6 +1,6 @@
 # Little Printer JavaScript Charts
 
-LPChart v1.1
+LPChart v1.1  
 2013-06-19
 
 LPChart is some JavaScript that makes it easier to draw line charts. It provides a simplified way of interacting with [d3](http://d3js.org/) and is designed to be particularly useful when making publications for [Little Printer](http://bergcloud.com/littleprinter/).
