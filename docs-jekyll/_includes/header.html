@@ -8,12 +8,12 @@
   {% capture lvl %}{{ page.url | append:'index.html' | split:'/' | size }}{% endcapture %}
   {% capture relative %}{% for i in (3..lvl) %}../{% endfor %}{% endcapture %}
 
-  <link rel="stylesheet" href="{{ relative }}../lpchart.css" type="text/css" />
+  <link rel="stylesheet" href="{{ relative }}css/lpchart.css" type="text/css" />
   <link rel="stylesheet" href="{{ relative }}css/syntax.css" type="text/css" />
   <link rel="stylesheet" href="{{ relative }}css/docs.css" type="text/css" />
 
-  <script src="{{ relative }}../js/d3.v3.min.js"></script>
-  <script src="{{ relative }}../js/lpchart.js"></script>
+  <script src="{{ relative }}js/d3.v3.min.js"></script>
+  <script src="{{ relative }}js/lpchart.min.js"></script>
 
   <script type="text/javascript">
     // So that we can use our example code blocks multiple times on one page.
