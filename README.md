@@ -6,6 +6,8 @@ be seen at http://bergcloud.github.io/lp-chart/
 
 It uses Jekyll to generate the pages. Use this when you're making changes:
 
-	$ jekyll build --source docs-jekyll --watch
+	$ jekyll build --watch
+
+Then you can view the generated HTML pages within `_site/`.
 
 
