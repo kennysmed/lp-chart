@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>LPChart{% if page.title }%} - {{page.title}}{% endif %}</title>
+  <title>LPChart{% if page.title %} - {{page.title}}{% endif %}</title>
 
   <!-- From http://stackoverflow.com/a/14254928/250962 -->
   {% capture lvl %}{{ page.url | append:'index.html' | split:'/' | size }}{% endcapture %}
