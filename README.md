@@ -7,10 +7,11 @@ LPChart is some JavaScript that makes it easier to draw line charts. It provides
 
 Documentation: http://bergcloud.github.io/lp-chart/
 
+The documentation is on the `gh-pages` branch.
 
 Future possible features:
 
-* Add bar chart?
+* Add bar chart type.
 * Allow for negative values.
 * Allow for setting custom tickFormats.
 
