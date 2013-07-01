@@ -8,10 +8,8 @@ LPChart is some JavaScript that makes it easier to draw line charts. It provides
 Documentation: http://bergcloud.github.io/lp-chart/
 
 
+Future possible features:
 
-Future:
-
-* Add percentage as a y-axis type.
 * Add bar chart?
 * Allow for negative values.
 * Allow for setting custom tickFormats.
