@@ -8,9 +8,22 @@ title: Introduction
 
 The aim is to be able to draw one or more simple charts, with a simple data format, and minimal JavaScript and configuration. It won't suit everyone, but for most Little Printer publication needs it should create good-looking and easy to implement charts.
 
-At [BERG](http://berglondon.com) we currently use this for the [Google Analytics](http://remote.bergcloud.com/publications/138) and [Gmail Stats](http://remote.bergcloud.com/publications/163) publications.
+At [BERG](http://berglondon.com) we currently use this for the [Google Analytics](http://remote.bergcloud.com/publications/138) and [Gmail Stats](http://remote.bergcloud.com/publications/177) publications.
 
 By default the chart will fill the full width of its surrounding element, and include x and y axes. You can [change the dimensions](ex_size.html), use [different types of data](ex_axis_type.html) for the x-axis, [hide the axes or add grids](ex_axes_grids.html) across the chart, [specify the values](ex_axis_tick.html) shown on the axes, [fill the area](ex_fills.html) below the line, [draw multiple lines](ex_lines.html) on the same chart, or [draw multiple charts](ex_charts.html) on the same page (or publication).
+
+## Usage
+
+Include the following files in your page:
+
+* `js/d3.v3.min.js`
+* `js/lpchart.min.js`
+* `lpchart.css`
+
+Create an HTML element in which the chart will be drawn.
+
+Write your code to draw the chart when the page has loaded, eg within
+`window.onload()`.
 
 Here's a complete example of the code and the chart it generates:
 {% endcapture %}
