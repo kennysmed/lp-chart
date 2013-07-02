@@ -1,5 +1,5 @@
-// LPChart v1.1.
-// 2013-06-19
+// LPChart v1.2
+// 2013-07-02
 
 function LPChart() {
 
@@ -63,6 +63,11 @@ function LPChart() {
       // Set with chart.showXAxisGrid() and chart.showYAxisGrid().
       showXAxisGrid = false,
       showYAxisGrid = false,
+      // What is the y-axis min and max? Defaults to go from 0 to the maximum
+      // height of the y values.
+      // Set with chart.yAxisMin() and chart.yAxisMax().
+      yAxisMin = 0,
+      yAxisMax = 'max',
       // Do we fill the area below the line?
       // Set with chart.fill().
       fill = false,
@@ -166,10 +171,22 @@ function LPChart() {
         maxX = d3.max(datasets, function(ds) {
                       return d3.max(ds, function(d) { return d[0]; });
                     });
-        minY = 0;
-        maxY = d3.max(datasets, function(ds) {
-                      return d3.max(ds, function(d) { return d[1]; });
-                    });
+
+        if (yAxisMin == 'min') {
+          minY = d3.min(datasets, function(ds) {
+                return d3.min(ds, function(d) { return d[1]; });
+              });
+        } else {
+          minY = yAxisMin;
+        }
+
+        if (yAxisMax == 'max') {
+          maxY = d3.max(datasets, function(ds) {
+                  return d3.max(ds, function(d) { return d[1]; });
+                });
+        } else {
+          maxY = yAxisMax; 
+        }
       });
 
       return {
@@ -303,7 +320,7 @@ function LPChart() {
       xScale.range([0, innerWidth]);
     }
 
-    yScale.domain([0, maxY])
+    yScale.domain([minY, maxY])
           .range([innerHeight, 0]);
 
 
@@ -532,6 +549,18 @@ function LPChart() {
   chart.yAxisTickValues = function(_) {
     if (!arguments.length) return yAxisTickValues;
     yTickValues = _;
+    return chart;
+  };
+
+  chart.yAxisMin = function(_) {
+    if (!arguments.length) return yAxisMin;
+    yAxisMin = _;
+    return chart;
+  };
+
+  chart.yAxisMax = function(_) {
+    if (!arguments.length) return yAxisMax;
+    yAxisMax = _;
     return chart;
   };
 
