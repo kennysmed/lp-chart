@@ -16,7 +16,13 @@ Create an HTML element in which the chart will be drawn.
 Write your code to draw the chart when the page has loaded, eg within
 `window.onload()`.
 
-Here's a complete example of the code and the chart it generates:
+Below is a complete example of the code and the chart it generates.
+
+(**Note:** We have found that including JavaScript files in Little
+Printer publications can be problematic; they might not load before BERG Cloud
+captures the page's output. If you find your charts aren't drawing at all, try
+embedding D3 and LPChart's JavaScript directly within your HTML page, rather
+than including the files. It's ugly, but at the moment it's more reliable.)
 {% endcapture %}
 
 {% capture code %}
