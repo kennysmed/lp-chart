@@ -1,0 +1,29 @@
+   
+  // The y-values vary very little:
+  var my_data = [
+    ['00:00', 10000],
+    ['01:00', 10003],
+    ['02:00', 10020],
+    ['03:00', 10025],
+    ['04:00', 10017],
+    ['05:00', 10020],
+    ['06:00', 10015]
+  ];
+
+  var chart = LPChart();
+
+  // By default yAxisMin() will be set to 0.
+  chart.xAxisType('hour');
+
+  d3.select('#chart-yaxis-min-1')
+    .datum([my_data])
+    .call(chart);
+
+  // We'll draw a second chart with the same
+  // data, but changing the y-axis minimum
+  // to 'min':
+  chart.yAxisMin('min');
+
+  d3.select('#chart-yaxis-min-2')
+    .datum([my_data])
+	.call(chart);

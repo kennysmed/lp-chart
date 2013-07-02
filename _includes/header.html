@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="{{ relative }}css/docs.css" type="text/css" />
 
   <script src="{{ relative }}js/d3.v3.min.js"></script>
-  <script src="{{ relative }}js/lpchart.min.js"></script>
+  <script src="{{ relative }}js/lpchart.js"></script>
 
   <script type="text/javascript">
     // So that we can use our example code blocks multiple times on one page.
@@ -47,7 +47,7 @@
         while ( loadstack.length > 0 )
             // `this` will be bound to the window object
             // inside the called function
-            loadstack.pop().call(this);
+            loadstack.shift().call(this);
     };
   </script>
 </head> 

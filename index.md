@@ -15,7 +15,7 @@ By default the chart will fill the full width of its surrounding element, and in
 
 Next steps:
 
-* Read a [basic, complete example](usage.html)
+* See a [basic, complete example](usage.html)
 * Read the [method reference](reference.html)
 * See [more examples](ex_default.html)
 * Go to [the LPChart code on GitHub](https://github.com/bergcloud/lp-chart/)

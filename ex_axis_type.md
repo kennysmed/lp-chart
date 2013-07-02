@@ -12,6 +12,38 @@ The `numeric` format is the default.
 {% include example.html %}
 
 
+
+{% capture intro %}
+## hour 
+By doing `chart.xAxisType('hour')` we can specify a time of day as x-axis labels.
+{% endcapture %}
+
+
+{% capture code %}
+{% highlight javascript %}
+window.onload = function() {
+{% include code/axis_type_hour.html %}
+};
+{% endhighlight %}
+{% endcapture %}
+
+
+{% capture chart %}
+<div class="pub">
+    <div id="chart-axis-type-hour"> </div>
+</div>
+<script>
+loadstack.push(function(win){
+    {% include code/axis_type_hour.html %}
+});
+</script>
+{% endcapture %}
+
+{% include example.html %}
+
+
+
+
 {% capture intro %}
 ## date
 By doing `chart.xAxisType('date')` we can use specific dates on the x-axis.
@@ -126,36 +158,6 @@ window.onload = function() {
 <script>
 loadstack.push(function(win){
     {% include code/axis_type_string.html %}
-});
-</script>
-{% endcapture %}
-
-{% include example.html %}
-
-
-
-{% capture intro %}
-## time 
-By doing `chart.xAxisType('time')` we can specify a time of day as x-axis labels.
-{% endcapture %}
-
-
-{% capture code %}
-{% highlight javascript %}
-window.onload = function() {
-{% include code/axis_type_time.html %}
-};
-{% endhighlight %}
-{% endcapture %}
-
-
-{% capture chart %}
-<div class="pub">
-    <div id="chart-axis-type-time"> </div>
-</div>
-<script>
-loadstack.push(function(win){
-    {% include code/axis_type_time.html %}
 });
 </script>
 {% endcapture %}

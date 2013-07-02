@@ -1,5 +1,6 @@
 
-  // Each x-axis value is a time string:
+  // Each x-axis value is a time string
+  // in 24-hour format, 'HH:MM':
   var my_data = [
     ['11:45', 10],
     ['12:00', 35],
@@ -13,8 +14,8 @@
   var chart = LPChart();
 
   // We set the x-axis type to match our data:
-  chart.xAxisType('time');
+  chart.xAxisType('hour');
 
-  d3.select('#chart-axis-type-time')
+  d3.select('#chart-axis-type-hour')
     .datum([my_data])
     .call(chart);
