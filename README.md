@@ -21,6 +21,6 @@ To fix:
 
 ## Versions
 
+* v1.2, 2013-07-02, Added `yAxisMin()` and `yAxisMax()`.
 * v1.1, 2013-06-19, First relase
-* v1.2, 2013-07-02, Added `yAxisMin()` and `zyAxisMax()`.
 
