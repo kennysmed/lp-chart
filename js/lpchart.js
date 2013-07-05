@@ -1,5 +1,5 @@
-// LPChart v1.2
-// 2013-07-02
+// LPChart v1.3
+// 2013-07-05
 
 function LPChart() {
 
@@ -68,6 +68,9 @@ function LPChart() {
       // Set with chart.yAxisMin() and chart.yAxisMax().
       yAxisMin = 0,
       yAxisMax = 'max',
+			// Is the y-axis on the 'left' or the 'right'?
+			// Set with chart.yAxisPosition().
+			yAxisPosition = 'left',
       // Do we fill the area below the line?
       // Set with chart.fill().
       fill = false,
@@ -299,8 +302,9 @@ function LPChart() {
     var g = svg.select("g");
 
 
-    // Will be the space we need on the left for the y-axis' widest label:
+    // Will be the space we need on the left/right for the y-axis' widest label:
     var yAxisMarginLeft = 0;
+		var yAxisMarginRight = 0;
     // Will be the space we need on the left for x-axis' first label:
     var xAxisMarginLeft = 0;
     // Will be the space we need on the right for x-axis' last label:
@@ -358,9 +362,17 @@ function LPChart() {
       // Just so we can measure its widest label's width.
       // From this we'll get:
       //  yAxisMarginLeft
+			//  yAxisMarginRight
+
+			var yAxisTranslate = "0,0";
+			if (yAxisPosition == 'right') {
+				yAxisTranslate = innerWidth + ",0";
+				yAxis.orient('right');
+			}
 
       gEnter.append("g").attr("class", "axis axis-y");
       g.select(".axis-y")
+				.attr("transform", "translate(" + yAxisTranslate + ")")
         .call(yAxis);
 
       // Get the width of the widest y-axis label.
@@ -369,14 +381,21 @@ function LPChart() {
         if (this.getBBox().width > maxYTickW) maxYTickW = this.getBBox().width;
       });
 
-      yAxisMarginLeft = maxYTickW + yAxis.tickPadding();
+			if (yAxisPosition == 'right') {
+				yAxisMarginRight = maxYTickW + yAxis.tickPadding();
+				// We need to add some for the ticks.
+				if ( ! showYAxisGrid) {
+					yAxisMarginRight += yAxisTickSize;
+				}
+			} else {
+				yAxisMarginLeft = maxYTickW + yAxis.tickPadding();
+				// We need to add some for the ticks.
+				if ( ! showYAxisGrid) {
+					yAxisMarginLeft += yAxisTickSize;
+				}
+			}
 
-      // We need to add some for the ticks.
-      if ( ! showYAxisGrid) {
-        yAxisMarginLeft += yAxisTickSize;
-      }
-
-      // Now remove the dummy x-axis.
+      // Now remove the dummy y-axis.
       g.select(".axis-y").remove();
     }
 
@@ -384,7 +403,7 @@ function LPChart() {
     // Now we can calculate the exact left/right margins we need,
     // and therefore the innerWidth.
     marginLeft = d3.max([yAxisMarginLeft, xAxisMarginLeft]);
-    marginRight = xAxisMarginRight;
+    marginRight = d3.max([yAxisMarginRight, xAxisMarginRight]);
     innerWidth = outerWidth - marginLeft - marginRight;
 
 
@@ -420,6 +439,10 @@ function LPChart() {
       yAxis.tickSize(yAxisTickSize, 0, 0);
     }
 
+		if (yAxisPosition == 'right') {
+			yAxisTranslate = innerWidth + ",0";
+		}
+
     // Reset to the new innerHeight.
     yScale.range([innerHeight, 0]);
 
@@ -427,6 +450,7 @@ function LPChart() {
       // Add it.
       gEnter.append("g").attr("class", "axis axis-y");
       g.select(".axis-y")
+				.attr("transform", "translate(" + yAxisTranslate + ")")
         .call(yAxis);
     }
 
@@ -561,6 +585,12 @@ function LPChart() {
   chart.yAxisMax = function(_) {
     if (!arguments.length) return yAxisMax;
     yAxisMax = _;
+    return chart;
+  };
+
+  chart.yAxisPosition = function(_) {
+    if (!arguments.length) return yAxisPosition;
+    yAxisPosition = _;
     return chart;
   };
 

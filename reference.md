@@ -126,6 +126,13 @@ chart.width(200)
     </tr>
 
     <tr>
+      <td><code>yAxisPosition()</code></td>
+      <td><code>string</code></td>
+      <td><code>"left"</code> or <code>"right"</code></td>
+      <td><code>"left"</code></td>
+    </tr>
+
+    <tr>
       <td><code>fill()</code></td>
       <td><code>boolean</code></td>
       <td><code>true</code> or <code>false</code></td>

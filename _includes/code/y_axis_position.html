@@ -1,0 +1,29 @@
+   
+  var my_data = [
+    ['2013-07-01', 10],
+    ['2013-07-02', 35],
+    ['2013-07-03', 25],
+    ['2013-07-04', 0],
+    ['2013-07-05', 15],
+    ['2013-07-06', 20],
+    ['2013-07-10', 15]
+  ];
+
+  var chart = LPChart();
+
+  chart.xAxisType('date');
+
+  // By default the yAxisPosition is 'left'.
+  d3.select('#chart-yaxis-position-1')
+    .datum([my_data])
+    .call(chart);
+
+  // We'll draw a second chart with the same
+  // data, but changing the y-axis position 
+  // to 'right':
+  chart.yAxisPosition('right');
+
+  d3.select('#chart-yaxis-position-2')
+    .datum([my_data])
+	.call(chart);
+
