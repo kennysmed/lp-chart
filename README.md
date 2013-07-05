@@ -1,11 +1,11 @@
 # LPChart: Little Printer JavaScript Charts
 
-LPChart v1.2  
-2013-07-02
+LPChart v1.3  
+2013-07-05
 
 LPChart is some JavaScript that makes it easier to draw line charts. It provides a simplified way of interacting with [d3](http://d3js.org/) and is designed to be particularly useful when making publications for [Little Printer](http://bergcloud.com/littleprinter/).
 
-Documentation: http://bergcloud.github.io/lp-chart/
+**Documentation: http://bergcloud.github.io/lp-chart/**
 
 The documentation is on the `gh-pages` branch.
 
@@ -21,6 +21,7 @@ To fix:
 
 ## Versions
 
+* v1.3, 2013-07-05, Added `yAxisPosition()`.
 * v1.2, 2013-07-02, Added `yAxisMin()` and `yAxisMax()`.
 * v1.1, 2013-06-19, First relase
 
